@@ -3,53 +3,49 @@ module.exports = {
     browser: true,
     es6: true,
   },
-  extends: [
-    'plugin:react/recommended',
-    'airbnb',
-  ],
+  extends: ["plugin:react/recommended", "airbnb", "prettier", "prettier/react"],
   globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
+    Atomics: "readonly",
+    SharedArrayBuffer: "readonly",
   },
-  parser: '@typescript-eslint/parser',
+  parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
     ecmaVersion: 2018,
-    sourceType: 'module',
+    sourceType: "module",
   },
-  plugins: [
-    'react',
-    '@typescript-eslint',
-  ],
+  plugins: ["react", "@typescript-eslint"],
   rules: {
-    "react/jsx-filename-extension": [1, {
-      "extensions": [".jsx", ".tsx"]
-    }],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        extensions: [".jsx", ".tsx"],
+      },
+    ],
     "react/prop-types": "off",
-    "@typescript-eslint/no-unused-vars": ["error", {
-      "vars": "all",
-      "args": "after-used",
-      "ignoreRestSiblings": false
-    }],
-    "import/extensions": ["error", {
-      ".ts": "never" | "always" | "ignorePackages",
-      ".tsx": "never" | "always" | "ignorePackages",
-    }],
+    "no-unused-vars": "off",
+    "import/extensions": [
+      "error",
+      {
+        ".ts": "never" | "always" | "ignorePackages",
+        ".tsx": "never" | "always" | "ignorePackages",
+      },
+    ],
     "implicit-arrow-linebreak": "off",
     "max-len": ["error", 130],
-    "quotes": ["error", "double"],
+    quotes: ["error", "double"],
     "arrow-parens": ["error", "as-needed"],
-    "import/prefer-default-export" : "off",
-    "operator-linebreak" : ["error", "after", { "overrides": { "=": "after" } }],
+    "import/prefer-default-export": "off",
+    "operator-linebreak": ["error", "after", { overrides: { "=": "after" } }],
     "no-plusplus": [2, { allowForLoopAfterthoughts: true }],
   },
   settings: {
     "import/resolver": {
-      "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx", ".d.ts"]
-      }
-    }
+      node: {
+        extensions: [".js", ".jsx", ".ts", ".tsx", ".d.ts"],
+      },
+    },
   },
 };

@@ -6,11 +6,14 @@ import { Pokemon } from "../../data/Pokemon";
 const getUrl = (driveKey: string, sheet: string) =>
   `https://docs.google.com/spreadsheets/d/${driveKey}/gviz/tq?sheet=${sheet}&headers=1`;
 
-export const loadFromSpreadSheet = (driveKey: string, setTeamsData: (data: Pokemon[]) => void) => ({
+export const loadFromSpreadSheet = (
+  driveKey: string,
+  setTeamsData: (data: Pokemon[]) => void
+) => ({
   load: () => {
     // @ts-ignore
     const query = new google.visualization.Query(getUrl(driveKey, "Sheet11"));
-    query.send(response => {
+    query.send((response) => {
       const driveData = response.getDataTable();
       const teamsData: Pokemon[] = [];
       for (let i = 0; i < driveData.getNumberOfRows(); i++) {

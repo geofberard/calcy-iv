@@ -9,7 +9,5 @@
     "lib": ["es6", "dom"],
     "moduleResolution": "node"
   },
-  "include": [
-    "./public/"
-  ]
+  "include": ["./public/"]
 }

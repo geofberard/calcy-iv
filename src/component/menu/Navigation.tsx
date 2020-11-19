@@ -13,7 +13,10 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import {
-  createStyles, makeStyles, Theme, useTheme,
+  createStyles,
+  makeStyles,
+  Theme,
+  useTheme,
 } from "@material-ui/core/styles";
 import { Page } from "../../data/navigation/Page";
 
@@ -64,16 +67,20 @@ const useStyles = makeStyles((theme: Theme) =>
     drawerSelect: {
       paddingTop: 15,
     },
-  }));
+  })
+);
 
 interface NavigationProps {
-    pages: Page[],
-    currentPage: Page,
-    onChange: (page: Page) => void
+  pages: Page[];
+  currentPage: Page;
+  onChange: (page: Page) => void;
 }
 
 export const Navigation: FC<NavigationProps> = ({
-  pages, currentPage, onChange, children,
+  pages,
+  currentPage,
+  onChange,
+  children,
 }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -89,7 +96,7 @@ export const Navigation: FC<NavigationProps> = ({
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {pages.map(page => (
+        {pages.map((page) => (
           <ListItem
             button
             key={page.label}

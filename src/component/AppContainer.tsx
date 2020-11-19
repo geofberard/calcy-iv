@@ -22,14 +22,21 @@ const theme = createMuiTheme({
 
 export const AppContainer: FC = () => {
   const [currentPage, setCurrentPage] = useNavigation(ALL_PAGES);
-  loadFromSpreadSheet("1ftOH6puWKaWCpcVzTb-1h_tVUcbji-WO6vQizNUmSuo", () => { }).load();
+  loadFromSpreadSheet(
+    "1ftOH6puWKaWCpcVzTb-1h_tVUcbji-WO6vQizNUmSuo",
+    () => {}
+  ).load();
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Navigation pages={ALL_PAGES} currentPage={currentPage} onChange={setCurrentPage}>
-        {(currentPage === Page1) && <Page1View />}
-        {(currentPage === Page2) && <Page2View />}
+      <Navigation
+        pages={ALL_PAGES}
+        currentPage={currentPage}
+        onChange={setCurrentPage}
+      >
+        {currentPage === Page1 && <Page1View />}
+        {currentPage === Page2 && <Page2View />}
       </Navigation>
     </ThemeProvider>
   );
