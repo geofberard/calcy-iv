@@ -96,7 +96,7 @@ export const Navigation: FC<NavigationProps> = ({
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {pages.map((page) => (
+        {pages.map(page => (
           <ListItem
             button
             key={page.label}

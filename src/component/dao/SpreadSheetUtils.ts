@@ -13,7 +13,7 @@ export const loadFromSpreadSheet = (
   load: () => {
     // @ts-ignore
     const query = new google.visualization.Query(getUrl(driveKey, "Sheet11"));
-    query.send((response) => {
+    query.send(response => {
       const driveData = response.getDataTable();
       const teamsData: Pokemon[] = [];
       for (let i = 0; i < driveData.getNumberOfRows(); i++) {

@@ -3,9 +3,9 @@ import { createHashHistory } from "history";
 import { Page } from "../../data/navigation/Page";
 import { parseElementId } from "../../data/Utils";
 
-export const useNavigation: (pages: Page[]) => [Page, (page: Page) => void] = (
-  pages
-) => {
+export const useNavigation: (
+  pages: Page[]
+) => [Page, (page: Page) => void] = pages => {
   const historyService = useMemo(
     () => createHashHistory({ hashType: "noslash" }),
     []
