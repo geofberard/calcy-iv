@@ -1,4 +1,5 @@
 export interface Pokemon {
+  id: string;
   ancestor: boolean;
   scanDate: Date;
   pokedexRed: string;

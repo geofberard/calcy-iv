@@ -1,14 +1,14 @@
-import ChevronRight from "@material-ui/icons/ChevronRight";
+import ListIcon from "@material-ui/icons/List";
 import { Page } from "./Page";
 
 export const Page1: Page = {
-  id: "page1",
-  label: "Page1",
-  Icon: ChevronRight,
+  id: "pokemons",
+  label: "Pokemons",
+  Icon: ListIcon,
 };
 
 export const Page2: Page = {
   id: "page2",
   label: "Page2",
-  Icon: ChevronRight,
+  Icon: ListIcon,
 };
