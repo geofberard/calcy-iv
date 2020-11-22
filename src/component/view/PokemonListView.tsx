@@ -7,6 +7,9 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
 import { Pokemon } from "../../data/Pokemon";
 import { usePokemons } from "../context/PokemonsContext";
 
@@ -87,16 +90,20 @@ interface SortingRule {
   ascending: boolean;
 }
 
-const updateRule = (rule: SortingRule, column: ColumnDescription) => {
-  if (rule && (rule.column === column)) {
-    return { ...rule, ascending: !rule.ascending };
-  }
-  return { column, ascending: true };
-};
+const updateRule = (rule: SortingRule, column: ColumnDescription) => ({
+  column,
+  ascending: rule && rule.column === column && !rule.ascending,
+});
 
 const using = (rule: SortingRule) => (a: Pokemon, b: Pokemon) =>
   !rule ? 0 : rule.column.type.sort(rule.column.getValue(a), rule.column.getValue(b)) *
       (rule.ascending ? 1 : -1);
+
+const isActive = (rule: SortingRule, column: ColumnDescription) =>
+  rule && rule.column === column;
+  
+const getDirection = (rule: SortingRule, column: ColumnDescription) =>
+  rule && rule.column === column && rule.ascending ? "asc" : "desc";
 
 export const PokemonListView = () => {
   const classes = useStyles();
@@ -128,7 +135,12 @@ export const PokemonListView = () => {
                     setSortingRule(updateRule(sortingRule, column))
                   }
                 >
-                  {column.label}
+                  <TableSortLabel
+                    active={isActive(sortingRule, column)}
+                    direction={getDirection(sortingRule, column)}
+                  >
+                    {column.label}
+                  </TableSortLabel>
                 </TableCell>
               ))}
             </TableRow>
