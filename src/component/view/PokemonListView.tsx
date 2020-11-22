@@ -12,10 +12,17 @@ import { usePokemons } from "../context/PokemonsContext";
 
 interface ColumnType {
   align: "left" | "center" | "right" | "justify" | "inherit";
+  sort: (a: any, b: any) => number;
 }
 
-const stringColumn: ColumnType = { align: "left" };
-const numnerColumn: ColumnType = { align: "right" };
+const stringColumn: ColumnType = {
+  align: "left",
+  sort: (a: string, b: string) => a.localeCompare(b),
+};
+const numnerColumn: ColumnType = {
+  align: "right",
+  sort: (a: number, b: number) => a - b,
+};
 
 interface ColumnDescription {
   label: string;
@@ -23,18 +30,38 @@ interface ColumnDescription {
   type: ColumnType;
 }
 
-const columns: ColumnDescription[] = [
-  { label: "Name", getValue: pokemon => pokemon.name, type: stringColumn },
-  { label: "IV", getValue: pokemon => pokemon.statIV, type: numnerColumn },
-  { label: "CP", getValue: pokemon => pokemon.cp, type: numnerColumn },
-  { label: "HP", getValue: pokemon => pokemon.hp, type: numnerColumn },
-  { label: "Fast", getValue: pokemon => pokemon.fastMove, type: stringColumn },
-  {
-    label: "Special",
-    getValue: pokemon => pokemon.specialMove,
-    type: stringColumn,
-  },
-];
+const Name: ColumnDescription = {
+  label: "Name",
+  getValue: pokemon => pokemon.name,
+  type: stringColumn,
+};
+const IV: ColumnDescription = {
+  label: "IV",
+  getValue: pokemon => pokemon.statIV,
+  type: numnerColumn,
+};
+const CP: ColumnDescription = {
+  label: "CP",
+  getValue: pokemon => pokemon.cp,
+  type: numnerColumn,
+};
+const HP: ColumnDescription = {
+  label: "HP",
+  getValue: pokemon => pokemon.hp,
+  type: numnerColumn,
+};
+const Fast: ColumnDescription = {
+  label: "Fast",
+  getValue: pokemon => pokemon.fastMove,
+  type: stringColumn,
+};
+const Special: ColumnDescription = {
+  label: "Special",
+  getValue: pokemon => pokemon.specialMove,
+  type: stringColumn,
+};
+
+const columns: ColumnDescription[] = [Name, IV, CP, HP, Fast, Special];
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -55,9 +82,26 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+interface SortingRule {
+  column: ColumnDescription;
+  ascending: boolean;
+}
+
+const updateRule = (rule: SortingRule, column: ColumnDescription) => {
+  if (rule && (rule.column === column)) {
+    return { ...rule, ascending: !rule.ascending };
+  }
+  return { column, ascending: true };
+};
+
+const using = (rule: SortingRule) => (a: Pokemon, b: Pokemon) =>
+  !rule ? 0 : rule.column.type.sort(rule.column.getValue(a), rule.column.getValue(b)) *
+      (rule.ascending ? 1 : -1);
+
 export const PokemonListView = () => {
   const classes = useStyles();
   const pokemons = usePokemons();
+  const [sortingRule, setSortingRule] = React.useState<SortingRule>();
 
   return (
     <div className={classes.tableWrapper}>
@@ -70,17 +114,28 @@ export const PokemonListView = () => {
         >
           <TableHead>
             <TableRow>
-              <TableCell align="right" className={`${classes.idCell} ${classes.headerCell}`}>
+              <TableCell
+                align="right"
+                className={`${classes.idCell} ${classes.headerCell}`}
+              >
                 #
               </TableCell>
               {columns.map(column => (
-                <TableCell align={column.type.align} className={classes.headerCell}>{column.label}</TableCell>
+                <TableCell
+                  align={column.type.align}
+                  className={classes.headerCell}
+                  onClick={() =>
+                    setSortingRule(updateRule(sortingRule, column))
+                  }
+                >
+                  {column.label}
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {pokemons.map((pokemon, index) => (
-              <TableRow key={pokemon.id}>
+            {pokemons.sort(using(sortingRule)).map((pokemon, index) => (
+              <TableRow>
                 <TableCell align="right" className={classes.idCell}>
                   {index + 1}
                 </TableCell>
