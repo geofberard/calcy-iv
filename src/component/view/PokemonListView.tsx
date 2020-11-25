@@ -1,6 +1,8 @@
 import * as React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { PokemonTable } from "./elements/PokemonTable";
+import { PokemonProvider } from "../context/PokemonContext";
+import { usePokemons } from "../context/PokemonsContext";
 
 const useStyles = makeStyles(theme => ({
   tableContainer: {
@@ -11,10 +13,13 @@ const useStyles = makeStyles(theme => ({
 
 export const PokemonListView = () => {
   const classes = useStyles();
+  const pokemons = usePokemons();
 
   return (
-    <div className={classes.tableContainer}>
-      <PokemonTable />
-    </div>
+    <PokemonProvider>
+      <div className={classes.tableContainer}>
+        <PokemonTable pokemons={pokemons}/>
+      </div>
+    </PokemonProvider>
   );
 };

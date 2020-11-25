@@ -1,0 +1,1 @@
+export type StateContext<T> = [T, (value:T) => void];
