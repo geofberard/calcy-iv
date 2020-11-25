@@ -1,5 +1,5 @@
 import { loadFromSpreadSheet } from "./SpreadSheetUtils";
-import { Pokemon } from "../../data/Pokemon";
+import { Pokemon } from "../data/Pokemon";
 
 export const loadPokemons = () =>
   new Promise<Pokemon[]>((resolve, reject) => {

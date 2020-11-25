@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { DataTable } from "../../data/drive/DataTable";
+import { DataTable } from "../data/drive/DataTable";
 
 const getUrl = (driveKey: string, sheet: string) =>
   `https://docs.google.com/spreadsheets/d/${driveKey}/gviz/tq?sheet=${sheet}&headers=1`;

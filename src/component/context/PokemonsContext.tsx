@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Pokemon } from "../../data/Pokemon";
-import { loadPokemons } from "../dao/PokemonDao";
+import { loadPokemons } from "../../dao/PokemonDao";
 
 const PokemonsContext = React.createContext<Pokemon[]>([]);
 
