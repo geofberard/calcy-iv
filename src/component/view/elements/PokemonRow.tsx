@@ -5,6 +5,7 @@ import TableRow from "@material-ui/core/TableRow";
 import { Pokemon } from "../../../data/Pokemon";
 import { POKEMON_COLUMNS } from "../../../data/table/ColumnDesc";
 import { usePokemon } from "../../context/PokemonContext";
+import { useStyleGetter } from "../../context/TableStyleGetterContext";
 
 const useStyles = makeStyles(theme => ({
   idCell: {
@@ -23,6 +24,7 @@ interface PokemonTableProps {
 export const PokemonRow = ({ index, pokemon }: PokemonTableProps) => {
   const classes = useStyles();
   const [currentPokemon, setCurrentPokemon] = usePokemon();
+  const getStyles = useStyleGetter();
 
   return (
     <TableRow
@@ -34,7 +36,7 @@ export const PokemonRow = ({ index, pokemon }: PokemonTableProps) => {
         {index + 1}
       </TableCell>
       {POKEMON_COLUMNS.map(column => (
-        <TableCell align={column.type.align}>
+        <TableCell align={column.type.align} className={getStyles(pokemon, column)}>
           {column.getValue(pokemon)}
         </TableCell>
       ))}

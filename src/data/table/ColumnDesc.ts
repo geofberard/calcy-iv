@@ -15,7 +15,7 @@ export const Name: ColumnDesc = {
 
 export const IV: ColumnDesc = {
   label: "IV",
-  getValue: pokemon => pokemon.statIV,
+  getValue: pokemon => pokemon.name,
   type: COL_NUMBER,
 };
 

@@ -1,6 +1,8 @@
 import { loadFromSpreadSheet } from "./SpreadSheetUtils";
 import { Pokemon } from "../data/Pokemon";
 
+const sanitizeName = (name: string) => name.replace("Purifié","").replace("Normale","").trim()
+
 export const loadPokemons = () =>
   new Promise<Pokemon[]>((resolve, reject) => {
     loadFromSpreadSheet(
@@ -15,7 +17,7 @@ export const loadPokemons = () =>
             ancestor: (driveData.getValue(i, 0) === 1) as boolean,
             scanDate: driveData.getValue(i, 1) as Date,
             pokedexRed: driveData.getValue(i, 2) as string,
-            name: driveData.getValue(i, 3) as string,
+            name: sanitizeName(driveData.getValue(i, 3) as string),
             nickname: driveData.getValue(i, 4) as string,
             gender: driveData.getValue(i, 5) as string,
             level: driveData.getValue(i, 6) as number,

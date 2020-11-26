@@ -7,8 +7,6 @@ const PokemonsContext = React.createContext<PokedexEntry[]>([]);
 export const PokedexProvider: React.FC = ({ children }) => {
   const [pokedex, setPokedex] = React.useState<PokedexEntry[]>([]);
 
-console.log(pokedex);
-
   React.useEffect(() => {
     loadPokedex().then(loadedPokedex => setPokedex(loadedPokedex));
   }, []);
