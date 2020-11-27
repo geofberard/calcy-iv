@@ -44,15 +44,10 @@ const getPokedexInfo = (pokemon: Pokemon, pokedex: PokedexEntry[]) => {
 };
 
 const hasGoodFastMove = (pokemon: Pokemon, pokedexEntry: PokedexEntry) =>
-  [
-    ...pokedexEntry.attack.fastMoves,
-    ...pokedexEntry.defense.fastMoves,
-  ].includes(pokemon.fastMove);
+  pokedexEntry.fastMoves.includes(pokemon.fastMove);
+  
 const hasGoodSpecialMove = (pokemon: Pokemon, pokedexEntry: PokedexEntry) =>
-  [
-    ...pokedexEntry.attack.specialMoves,
-    ...pokedexEntry.defense.specialMoves,
-  ].includes(pokemon.specialMove);
+  pokedexEntry.specialMoves.includes(pokemon.specialMove);
 
 export const PokemonTable = ({ pokemons }: PokemonTableProps) => {
   const classes = useStyles();

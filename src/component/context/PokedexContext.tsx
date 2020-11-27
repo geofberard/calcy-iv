@@ -3,7 +3,7 @@ import { loadPokedex } from "../../dao/PokedexDao";
 import { PokedexEntry } from "../../data/PokedexEntry";
 import { useConfig } from "./ConfigContext";
 
-const PokemonsContext = React.createContext<PokedexEntry[]>([]);
+const PokedexContext = React.createContext<PokedexEntry[]>([]);
 
 export const PokedexProvider: React.FC = ({ children }) => {
   const [pokedex, setPokedex] = React.useState<PokedexEntry[]>([]);
@@ -12,15 +12,15 @@ export const PokedexProvider: React.FC = ({ children }) => {
   React.useEffect(() => {
     loadPokedex(
       config.spreadsheetKey,
-      config.pokemonSheet
+      config.pokedexSheet
     ).then(loadedPokedex => setPokedex(loadedPokedex));
   }, [config]);
 
   return (
-    <PokemonsContext.Provider value={pokedex}>
+    <PokedexContext.Provider value={pokedex}>
       {children}
-    </PokemonsContext.Provider>
+    </PokedexContext.Provider>
   );
 };
 
-export const usePokedex = () => React.useContext(PokemonsContext);
+export const usePokedex = () => React.useContext(PokedexContext);

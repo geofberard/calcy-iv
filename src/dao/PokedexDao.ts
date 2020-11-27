@@ -1,7 +1,7 @@
 import { loadFromSpreadSheet } from "./SpreadSheetUtils";
 import { PokedexEntry } from "../data/PokedexEntry";
 
-const sanitizeAttack = (attack: string) => (attack ? attack.split("\n") : []);
+const sanitizeMove = (attack: string) => (attack ? attack.split("\n") : []);
 
 export const loadPokedex = (spreadsheetKey: string, sheetName: string) =>
   new Promise<PokedexEntry[]>((resolve, reject) => {
@@ -11,14 +11,8 @@ export const loadPokedex = (spreadsheetKey: string, sheetName: string) =>
         for (let i = 0; i < driveData.getNumberOfRows(); i++) {
           pokedex.push({
             name: driveData.getValue(i, 0) as string,
-            attack: {
-              fastMoves: sanitizeAttack(driveData.getValue(i, 3) as string),
-              specialMoves: sanitizeAttack(driveData.getValue(i, 4) as string),
-            },
-            defense: {
-              fastMoves: sanitizeAttack(driveData.getValue(i, 5) as string),
-              specialMoves: sanitizeAttack(driveData.getValue(i, 6) as string),
-            },
+            fastMoves: sanitizeMove(driveData.getValue(i, 1) as string),
+            specialMoves: sanitizeMove(driveData.getValue(i, 2) as string),
           });
         }
         resolve(pokedex);

@@ -7,7 +7,7 @@ export const ConfigProvider: React.FC = ({ children }) => {
   const [config, setConfig] = React.useState<Config>({
     spreadsheetKey: "1ftOH6puWKaWCpcVzTb-1h_tVUcbji-WO6vQizNUmSuo",
     pokemonSheet: "Sheet11",
-    pokemonpokedex: "Pokedex2",
+    pokedexSheet: "Sheet14",
   });
 
   return (
