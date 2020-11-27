@@ -1,14 +1,12 @@
 import { loadFromSpreadSheet } from "./SpreadSheetUtils";
 import { Pokemon } from "../data/Pokemon";
 
-const sanitizeName = (name: string) => name.replace("Purifié","").replace("Normale","").trim()
+const sanitizeName = (name: string) =>
+  name.replace("Purifié", "").replace("Normale", "").trim();
 
-export const loadPokemons = () =>
+export const loadPokemons = (spreadsheetKey: string, sheetName: string) =>
   new Promise<Pokemon[]>((resolve, reject) => {
-    loadFromSpreadSheet(
-      "1ftOH6puWKaWCpcVzTb-1h_tVUcbji-WO6vQizNUmSuo",
-      "Sheet11"
-    )
+    loadFromSpreadSheet(spreadsheetKey, sheetName)
       .then(driveData => {
         const pokemons: Pokemon[] = [];
         for (let i = 0; i < driveData.getNumberOfRows(); i++) {

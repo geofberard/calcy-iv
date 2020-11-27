@@ -3,12 +3,9 @@ import { PokedexEntry } from "../data/PokedexEntry";
 
 const sanitizeAttack = (attack: string) => (attack ? attack.split("\n") : []);
 
-export const loadPokedex = () =>
+export const loadPokedex = (spreadsheetKey: string, sheetName: string) =>
   new Promise<PokedexEntry[]>((resolve, reject) => {
-    loadFromSpreadSheet(
-      "1ftOH6puWKaWCpcVzTb-1h_tVUcbji-WO6vQizNUmSuo",
-      "Pokedex2"
-    )
+    loadFromSpreadSheet(spreadsheetKey, sheetName)
       .then(driveData => {
         const pokedex: PokedexEntry[] = [];
         for (let i = 0; i < driveData.getNumberOfRows(); i++) {
