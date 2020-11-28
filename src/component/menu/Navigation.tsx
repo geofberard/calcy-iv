@@ -15,6 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import CachedIcon from "@material-ui/icons/Cached";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import ShareIcon from "@material-ui/icons/Share";
 import {
   createStyles,
   makeStyles,
@@ -25,7 +26,8 @@ import { Page } from "../../data/navigation/Page";
 import { useEventService } from "../context/EventServiceContext";
 import { useConfig } from "../context/ConfigContext";
 import { refreshEvent as REFRESH } from "../../data/event/AppEvents";
-import { removeCookie } from "../../service/CookieService";
+import { getUrlFromConfig } from "../../service/UrlParamService";
+import { Config } from "../../data/Config";
 
 const drawerWidth = 240;
 
@@ -96,7 +98,7 @@ export const Navigation: FC<NavigationProps> = ({
   const classes = useStyles();
   const theme = useTheme();
   const eventService = useEventService();
-  const [, setConfig, resetConfig] = useConfig();
+  const [config, setConfig, resetConfig] = useConfig();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -153,14 +155,21 @@ export const Navigation: FC<NavigationProps> = ({
               <CachedIcon />
             </IconButton>
             <IconButton
-              aria-label="Refresh Data"
+              aria-label="Share"
+              color="inherit"
+              onClick={() => navigator.clipboard.writeText(getUrlFromConfig(config))}
+            >
+              <ShareIcon />
+            </IconButton>
+            <IconButton
+              aria-label="Config"
               color="inherit"
               onClick={() => setConfig(null)}
             >
               <SettingsIcon />
             </IconButton>
             <IconButton
-              aria-label="Refresh Data"
+              aria-label="Exit"
               color="inherit"
               onClick={() => resetConfig()}
             >
