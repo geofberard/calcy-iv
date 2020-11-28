@@ -8,7 +8,7 @@ const PokemonsContext = React.createContext<Pokemon[]>([]);
 
 export const PokemonsProvider: React.FC = ({ children }) => {
   const [pokemons, setPokemons] = React.useState<Pokemon[]>([]);
-  const config = useConfig();
+  const [config,] = useConfig();
   const eventServie = useEventService();
 
   const loadData = () =>

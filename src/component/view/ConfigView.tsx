@@ -1,0 +1,125 @@
+import { Card, CardContent, CardMedia } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import * as React from "react";
+import SaveIcon from "@material-ui/icons/Save";
+import { Config } from "../../data/Config";
+import { useConfig } from "../context/ConfigContext";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    marginTop: theme.spacing(10),
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  media: {
+    height: 140,
+    backgroundSize: "contain",
+  },
+}));
+
+function checkConfig(config: Partial<Config>): config is Config {
+  return (
+    config.spreadsheetKey &&
+    config.spreadsheetKey.length > 0 &&
+    config.pokemonSheet &&
+    config.pokemonSheet.length > 0 &&
+    config.pokedexSheet &&
+    config.pokedexSheet.length > 0
+  );
+}
+
+export const ConfigView = () => {
+  const classes = useStyles();
+  const [newConfig, setNewConfig] = React.useState<Partial<Config>>({});
+  const [, setConfig] = useConfig();
+  const [validate, setValidate] = React.useState<boolean>(false);
+
+  const spreadsheetKeyError = validate && !newConfig.spreadsheetKey;
+  const pokemonSheetError = validate && !newConfig.pokemonSheet;
+  const pokedexSheetError = validate && !newConfig.pokedexSheet;
+
+  const onsubmit = () =>
+    checkConfig(newConfig) ? setConfig(newConfig as Config) : setValidate(true);
+
+  return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Card className={classes.root}>
+        <CardContent>
+          <CardMedia
+            image="img/go-logo.png"
+            title="Logo"
+            className={classes.media}
+          />
+          <TextField
+            id="spreadsheetKey"
+            name="spreadsheetKey"
+            label="Google Spreadsheet Key"
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            autoFocus
+            error={spreadsheetKeyError}
+            helperText={spreadsheetKeyError ? "This field is required" : null}
+            onChange={event =>
+              setNewConfig({ ...newConfig, spreadsheetKey: event.target.value })
+            }
+          />
+          <TextField
+            id="pokemonSheet"
+            name="pokemonSheet"
+            label="Pokemon Sheet"
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            error={pokemonSheetError}
+            helperText={pokemonSheetError ? "This field is required" : null}
+            onChange={event =>
+              setNewConfig({ ...newConfig, pokemonSheet: event.target.value })
+            }
+          />
+          <TextField
+            id="pokedexSheet"
+            name="pokedexSheet"
+            label="Pokedex Sheet"
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            error={pokedexSheetError}
+            helperText={pokedexSheetError ? "This field is required" : null}
+            onChange={event =>
+              setNewConfig({ ...newConfig, pokedexSheet: event.target.value })
+            }
+          />
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            size="large"
+            className={classes.submit}
+            startIcon={<SaveIcon />}
+            onClick={onsubmit}
+          >
+            Save
+          </Button>
+        </CardContent>
+      </Card>
+    </Container>
+  );
+};

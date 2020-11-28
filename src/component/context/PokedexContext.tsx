@@ -8,7 +8,7 @@ const PokedexContext = React.createContext<PokedexEntry[]>([]);
 
 export const PokedexProvider: React.FC = ({ children }) => {
   const [pokedex, setPokedex] = React.useState<PokedexEntry[]>([]);
-  const config = useConfig();
+  const [config,] = useConfig();
   const eventService = useEventService();
 
   const loadData = () =>
