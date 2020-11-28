@@ -8,6 +8,7 @@ import * as React from "react";
 import SaveIcon from "@material-ui/icons/Save";
 import { Config } from "../../data/Config";
 import { useConfig } from "../context/ConfigContext";
+import { getConfigFromCookie } from "../../service/CookieService";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,7 +44,14 @@ function checkConfig(config: Partial<Config>): config is Config {
 
 export const ConfigView = () => {
   const classes = useStyles();
-  const [newConfig, setNewConfig] = React.useState<Partial<Config>>({});
+  const cookieConfig = getConfigFromCookie();
+  const [newConfig, setNewConfig] = React.useState<Partial<Config>>(
+    !cookieConfig ? {} : {
+          spreadsheetKey: cookieConfig.spreadsheetKey,
+          pokemonSheet: cookieConfig.pokemonSheet,
+          pokedexSheet: cookieConfig.pokedexSheet,
+        }
+  );
   const [, setConfig] = useConfig();
   const [validate, setValidate] = React.useState<boolean>(false);
 
@@ -70,6 +78,7 @@ export const ConfigView = () => {
             label="Google Spreadsheet Key"
             variant="outlined"
             margin="normal"
+            defaultValue={newConfig.spreadsheetKey}
             required
             fullWidth
             autoFocus
@@ -85,6 +94,7 @@ export const ConfigView = () => {
             label="Pokemon Sheet"
             variant="outlined"
             margin="normal"
+            defaultValue={newConfig.pokemonSheet}
             required
             fullWidth
             error={pokemonSheetError}
@@ -99,6 +109,7 @@ export const ConfigView = () => {
             label="Pokedex Sheet"
             variant="outlined"
             margin="normal"
+            defaultValue={newConfig.pokedexSheet}
             required
             fullWidth
             error={pokedexSheetError}
