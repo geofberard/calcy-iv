@@ -12,6 +12,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
+import CachedIcon from "@material-ui/icons/Cached";
 import {
   createStyles,
   makeStyles,
@@ -19,6 +20,8 @@ import {
   useTheme,
 } from "@material-ui/core/styles";
 import { Page } from "../../data/navigation/Page";
+import { useEventService } from "../context/EventServiceContext";
+import { refreshEvent as REFRESH } from "../../data/event/AppEvents";
 
 const drawerWidth = 240;
 
@@ -67,6 +70,9 @@ const useStyles = makeStyles((theme: Theme) =>
     drawerSelect: {
       paddingTop: 15,
     },
+    grow: {
+      flexGrow: 1,
+    },
   })
 );
 
@@ -86,6 +92,7 @@ export const Navigation: FC<NavigationProps> = ({
 
   const classes = useStyles();
   const theme = useTheme();
+  const eventService = useEventService();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -132,6 +139,12 @@ export const Navigation: FC<NavigationProps> = ({
           <Typography variant="h5" noWrap className={classes.title}>
             Hello World !
           </Typography>
+          <div className={classes.grow} />
+          <div>
+            <IconButton aria-label="Refresh Data" color="inherit" onClick={() => eventService.trigger(REFRESH)}>
+              <CachedIcon />
+            </IconButton>
+          </div>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">

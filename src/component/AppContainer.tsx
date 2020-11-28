@@ -12,6 +12,7 @@ import { Page1, Page2 } from "../data/navigation/Pages";
 import { PokemonsProvider } from "./context/PokemonsContext";
 import { PokedexProvider } from "./context/PokedexContext";
 import { ConfigProvider } from "./context/ConfigContext";
+import { EventServiceProvider } from "./context/EventServiceContext";
 
 const ALL_PAGES = [Page1, Page2];
 
@@ -27,21 +28,15 @@ export const AppContainer: FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <ConfigProvider>
-        <PokemonsProvider>
-          <PokedexProvider>
-            <CssBaseline />
-            <Navigation
-              pages={ALL_PAGES}
-              currentPage={currentPage}
-              onChange={setCurrentPage}
-            >
-              {currentPage === Page1 && <PokemonListView />}
-              {currentPage === Page2 && <Page2View />}
-            </Navigation>
-          </PokedexProvider>
-        </PokemonsProvider>
-      </ConfigProvider>
+      <CssBaseline />
+      <Navigation
+        pages={ALL_PAGES}
+        currentPage={currentPage}
+        onChange={setCurrentPage}
+      >
+        {currentPage === Page1 && <PokemonListView />}
+        {currentPage === Page2 && <Page2View />}
+      </Navigation>
     </ThemeProvider>
   );
 };
