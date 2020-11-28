@@ -14,6 +14,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import CachedIcon from "@material-ui/icons/Cached";
 import SettingsIcon from "@material-ui/icons/Settings";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import {
   createStyles,
   makeStyles,
@@ -24,6 +25,7 @@ import { Page } from "../../data/navigation/Page";
 import { useEventService } from "../context/EventServiceContext";
 import { useConfig } from "../context/ConfigContext";
 import { refreshEvent as REFRESH } from "../../data/event/AppEvents";
+import { removeCookie } from "../../service/CookieService";
 
 const drawerWidth = 240;
 
@@ -94,7 +96,7 @@ export const Navigation: FC<NavigationProps> = ({
   const classes = useStyles();
   const theme = useTheme();
   const eventService = useEventService();
-  const [, setConfig] = useConfig();
+  const [, setConfig, resetConfig] = useConfig();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -156,6 +158,13 @@ export const Navigation: FC<NavigationProps> = ({
               onClick={() => setConfig(null)}
             >
               <SettingsIcon />
+            </IconButton>
+            <IconButton
+              aria-label="Refresh Data"
+              color="inherit"
+              onClick={() => resetConfig()}
+            >
+              <ExitToAppIcon />
             </IconButton>
           </div>
         </Toolbar>

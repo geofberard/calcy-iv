@@ -1,9 +1,10 @@
 import * as React from "react";
 import { Config } from "../../data/Config";
-import { StateContext } from "./StateContext";
-import { saveConfigAsCookie, getConfigFromCookie } from "../../service/CookieService";
+import { getConfigFromCookie, removeCookie, saveConfigAsCookie } from "../../service/CookieService";
 
-const ConfigContext = React.createContext<StateContext<Config>>(null);
+type ConfigContextValue = [ Config, (config:Config) => void, () => void ];
+
+const ConfigContext = React.createContext<ConfigContextValue>(null);
 
 export const ConfigProvider: React.FC = ({ children }) => {
   const [config, setConfig] = React.useState<Config>(getConfigFromCookie());
@@ -13,8 +14,13 @@ export const ConfigProvider: React.FC = ({ children }) => {
     saveConfigAsCookie(newConfig);
   };
 
+  const resetConfig = () => {
+    removeCookie();
+    setConfig(null);
+  };
+
   return (
-    <ConfigContext.Provider value={[config, saveConfig]}>
+    <ConfigContext.Provider value={[config, saveConfig, resetConfig]}>
       {children}
     </ConfigContext.Provider>
   );

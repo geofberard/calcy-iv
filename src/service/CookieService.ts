@@ -25,3 +25,7 @@ export const saveConfigAsCookie = (config: Config | undefined) => {
   const cookieValue = `${config.spreadsheetKey}§${config.pokemonSheet}§${config.pokedexSheet}`;
   document.cookie = `${CONFIG_CNAME}=${cookieValue};expires=${d.toUTCString()}`;
 };
+
+export const removeCookie = () => {
+  document.cookie = `${CONFIG_CNAME}=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+};
