@@ -12,6 +12,7 @@ import { usePokedex } from "../../context/PokedexContext";
 import { TableStyleGetterProvider } from "../../context/TableStyleGetterContext";
 import { PokemonRow } from "./PokemonRow";
 import { PokemonTableHeader } from "./PokemonTableHeader";
+import { useSearchQuery } from "../../context/SearchQueryContext";
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -31,7 +32,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const using = (rule: SortingRule) => (a: Pokemon, b: Pokemon) =>
+const byQuery = (searchQuery: string) => (pokemon: Pokemon) =>
+  !searchQuery ||
+  pokemon.name.includes(searchQuery) ||
+  pokemon.fastMove.includes(searchQuery) ||
+  pokemon.specialMove.includes(searchQuery);
+
+const byRule = (rule: SortingRule) => (a: Pokemon, b: Pokemon) =>
   !rule ? 0 : rule.column.type.sort(rule.column.getValue(a), rule.column.getValue(b)) *
       (rule.ascending ? 1 : -1);
 
@@ -45,7 +52,7 @@ const getPokedexInfo = (pokemon: Pokemon, pokedex: PokedexEntry[]) => {
 
 const hasGoodFastMove = (pokemon: Pokemon, pokedexEntry: PokedexEntry) =>
   pokedexEntry.fastMoves.includes(pokemon.fastMove);
-  
+
 const hasGoodSpecialMove = (pokemon: Pokemon, pokedexEntry: PokedexEntry) =>
   pokedexEntry.specialMoves.includes(pokemon.specialMove);
 
@@ -53,10 +60,11 @@ export const PokemonTable = ({ pokemons }: PokemonTableProps) => {
   const classes = useStyles();
   const [sortingRule, setSortingRule] = React.useState<SortingRule>();
   const pokedex = usePokedex();
+  const [searchQuery] = useSearchQuery();
 
   const styleGetter = (pokemon: Pokemon, column: ColumnDesc) => {
     const pokedexEntry = getPokedexInfo(pokemon, pokedex);
-    
+
     if (pokedexEntry) {
       if (column === Fast) {
         return hasGoodFastMove(pokemon, pokedexEntry) ? classes.green : classes.red;
@@ -82,9 +90,12 @@ export const PokemonTable = ({ pokemons }: PokemonTableProps) => {
             setSortingRule={setSortingRule}
           />
           <TableBody>
-            {pokemons.sort(using(sortingRule)).map((pokemon, index) => (
-              <PokemonRow index={index} pokemon={pokemon} />
-            ))}
+            {pokemons
+              .filter(byQuery(searchQuery))
+              .sort(byRule(sortingRule))
+              .map((pokemon, index) => (
+                <PokemonRow index={index} pokemon={pokemon} />
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

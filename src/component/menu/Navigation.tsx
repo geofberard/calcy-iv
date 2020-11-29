@@ -16,7 +16,10 @@ import CachedIcon from "@material-ui/icons/Cached";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ShareIcon from "@material-ui/icons/Share";
+import SearchIcon from "@material-ui/icons/Search";
+import InputBase from "@material-ui/core/InputBase";
 import {
+  fade,
   createStyles,
   makeStyles,
   Theme,
@@ -28,6 +31,7 @@ import { useConfig } from "../context/ConfigContext";
 import { refreshEvent as REFRESH } from "../../data/event/AppEvents";
 import { getUrlFromConfig } from "../../service/UrlParamService";
 import { Config } from "../../data/Config";
+import { useSearchQuery } from "../context/SearchQueryContext";
 
 const drawerWidth = 240;
 
@@ -36,23 +40,9 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: "flex",
     },
-    drawer: {
-      [theme.breakpoints.up("md")]: {
-        width: drawerWidth,
-        flexShrink: 0,
-      },
-    },
-    appBar: {
-      [theme.breakpoints.up("md")]: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
-      },
-    },
     menuButton: {
+      display: "none",
       marginRight: theme.spacing(2),
-      [theme.breakpoints.up("md")]: {
-        display: "none",
-      },
     },
     exitButton: {
       marginLeft: theme.spacing(2),
@@ -66,9 +56,6 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       // padding: theme.spacing(3),
     },
-    title: {
-      flexGrow: 1,
-    },
     logo: {
       height: 55,
       marginRight: 15,
@@ -78,6 +65,43 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     grow: {
       flexGrow: 1,
+    },
+    search: {
+      position: "relative",
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: fade(theme.palette.common.white, 0.15),
+      "&:hover": {
+        backgroundColor: fade(theme.palette.common.white, 0.25),
+      },
+      marginRight: theme.spacing(2),
+      marginLeft: 0,
+      width: "100%",
+      [theme.breakpoints.up("sm")]: {
+        marginLeft: theme.spacing(3),
+        width: "auto",
+      },
+    },
+    searchIcon: {
+      padding: theme.spacing(0, 2),
+      height: "100%",
+      position: "absolute",
+      pointerEvents: "none",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    inputRoot: {
+      color: "inherit",
+    },
+    inputInput: {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+      transition: theme.transitions.create("width"),
+      width: "100%",
+      [theme.breakpoints.up("md")]: {
+        width: "20ch",
+      },
     },
   })
 );
@@ -95,6 +119,7 @@ export const Navigation: FC<NavigationProps> = ({
   children,
 }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [searchQuery, setSearchQuery] = useSearchQuery();
   const classes = useStyles();
   const theme = useTheme();
   const eventService = useEventService();
@@ -131,7 +156,7 @@ export const Navigation: FC<NavigationProps> = ({
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -142,9 +167,24 @@ export const Navigation: FC<NavigationProps> = ({
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h5" noWrap className={classes.title}>
-            Hello World !
+          <Typography variant="h5" noWrap>
+            Pokemon Storage
           </Typography>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ "aria-label": "search" }}
+              defaultValue={searchQuery}
+              onChange={event => setSearchQuery(event.target.value)}
+            />
+          </div>
           <div className={classes.grow} />
           <div>
             <IconButton
@@ -157,7 +197,9 @@ export const Navigation: FC<NavigationProps> = ({
             <IconButton
               aria-label="Share"
               color="inherit"
-              onClick={() => navigator.clipboard.writeText(getUrlFromConfig(config))}
+              onClick={() =>
+                navigator.clipboard.writeText(getUrlFromConfig(config))
+              }
             >
               <ShareIcon />
             </IconButton>
@@ -178,34 +220,21 @@ export const Navigation: FC<NavigationProps> = ({
           </div>
         </Toolbar>
       </AppBar>
-      <nav className={classes.drawer} aria-label="mailbox folders">
-        <Hidden mdUp implementation="css">
-          <Drawer
-            variant="temporary"
-            anchor={theme.direction === "rtl" ? "right" : "left"}
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden smDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
+      <nav aria-label="mailbox folders">
+        <Drawer
+          variant="temporary"
+          anchor={theme.direction === "rtl" ? "right" : "left"}
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+        >
+          {drawer}
+        </Drawer>
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />

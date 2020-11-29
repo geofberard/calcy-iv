@@ -10,27 +10,30 @@ import { useNavigation } from "./menu/useNavigation";
 import { ConfigView } from "./view/ConfigView";
 import { Page2View } from "./view/Page2View";
 import { PokemonListView } from "./view/PokemonListView";
+import { SearchQueryProvider } from "./context/SearchQueryContext";
 
 const ALL_PAGES = [Page1, Page2];
 
 export const AppContainer: FC = () => {
   const [currentPage, setCurrentPage] = useNavigation(ALL_PAGES);
-  const [config,] = useConfig();
+  const [config] = useConfig();
 
   return !config ? (
     <ConfigView />
   ) : (
     <PokemonsProvider>
       <PokedexProvider>
-        <CssBaseline />
-        <Navigation
-          pages={ALL_PAGES}
-          currentPage={currentPage}
-          onChange={setCurrentPage}
-        >
-          {currentPage === Page1 && <PokemonListView />}
-          {currentPage === Page2 && <Page2View />}
-        </Navigation>
+        <SearchQueryProvider>
+          <CssBaseline />
+          <Navigation
+            pages={ALL_PAGES}
+            currentPage={currentPage}
+            onChange={setCurrentPage}
+          >
+            {currentPage === Page1 && <PokemonListView />}
+            {currentPage === Page2 && <Page2View />}
+          </Navigation>
+        </SearchQueryProvider>
       </PokedexProvider>
     </PokemonsProvider>
   );
