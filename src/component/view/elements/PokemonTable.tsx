@@ -4,15 +4,15 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableContainer from "@material-ui/core/TableContainer";
 import * as React from "react";
-import { PokedexEntry } from "../../../data/PokedexEntry";
 import { Pokemon } from "../../../data/Pokemon";
+import { PokedexEntry } from "../../../data/pokemon/PokedexEntry";
 import { ColumnDesc, Fast, Special } from "../../../data/table/ColumnDesc";
 import { SortingRule } from "../../../data/table/SortingRule";
-import { usePokedex } from "../../context/PokedexContext";
+import { useSearchQuery } from "../../context/SearchQueryContext";
+import { usePokedexService } from "../../hook/usePokedexService";
 import { TableStyleGetterProvider } from "../../context/TableStyleGetterContext";
 import { PokemonRow } from "./PokemonRow";
 import { PokemonTableHeader } from "./PokemonTableHeader";
-import { useSearchQuery } from "../../context/SearchQueryContext";
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -51,28 +51,28 @@ const getPokedexInfo = (pokemon: Pokemon, pokedex: PokedexEntry[]) => {
 };
 
 const hasGoodFastMove = (pokemon: Pokemon, pokedexEntry: PokedexEntry) =>
-  pokedexEntry.fastMoves.includes(pokemon.fastMove);
+  pokedexEntry.attackerMoves.fastMoves.some(move => move.name === pokemon.fastMove);
 
 const hasGoodSpecialMove = (pokemon: Pokemon, pokedexEntry: PokedexEntry) =>
-  pokedexEntry.specialMoves.includes(pokemon.specialMove);
+  pokedexEntry.attackerMoves.specialMoves.some(move => move.name === pokemon.specialMove);
 
 export const PokemonTable = ({ pokemons }: PokemonTableProps) => {
   const classes = useStyles();
   const [sortingRule, setSortingRule] = React.useState<SortingRule>();
-  const pokedex = usePokedex();
+  const pokedexService = usePokedexService();
   const [searchQuery] = useSearchQuery();
 
   const styleGetter = (pokemon: Pokemon, column: ColumnDesc) => {
-    const pokedexEntry = getPokedexInfo(pokemon, pokedex);
+    // const pokedexEntry = getPokedexInfo(pokemon, pokedex);
 
-    if (pokedexEntry) {
+    // if (pokedexEntry) {
       if (column === Fast) {
-        return hasGoodFastMove(pokemon, pokedexEntry) ? classes.green : classes.red;
+        return pokedexService.hasGoodMove(pokemon, pokemon.fastMove) ? classes.green : classes.red;
       }
       if (column === Special) {
-        return hasGoodSpecialMove(pokemon, pokedexEntry) ? classes.green : classes.red;
+        return pokedexService.hasGoodMove(pokemon, pokemon.specialMove) ? classes.green : classes.red;
       }
-    }
+    // }
     return null;
   };
 

@@ -1,29 +1,52 @@
 import * as React from "react";
-import { loadPokedex } from "../../dao/PokedexDao";
-import { PokedexEntry } from "../../data/PokedexEntry";
-import { useConfig } from "./ConfigContext";
+import { PokedexEntry } from "../../data/pokemon/PokedexEntry";
+import { PokemonMove } from "../../data/pokemon/PokemonMove";
 import { useEventService } from "./EventServiceContext";
+import { PokemonMoveSet } from "../../data/pokemon/PokemonMoveSet";
 
-const PokedexContext = React.createContext<PokedexEntry[]>([]);
+const PokedexContext = React.createContext<[PokedexEntry[], PokemonMove[]]>([[],[]]);
+
+const toMoveSet = (rawMoveSet: any, moves: PokemonMove[]) =>
+  ({
+    fastMoves: rawMoveSet.fastMoves.map(id =>
+      moves.find(move => move.id === id)
+    ),
+    specialMoves: rawMoveSet.specialMoves.map(id =>
+      moves.find(move => move.id === id)
+    ),
+  } as PokemonMoveSet);
+
+const toPokedexEntry = (moves: PokemonMove[]) => (rawPokedexEntry: any) =>
+  ({
+    ...rawPokedexEntry,
+    attackerMoves: toMoveSet(rawPokedexEntry.attackerMoves, moves),
+    defenderMoves: toMoveSet(rawPokedexEntry.defenderMoves, moves),
+  } as PokedexEntry);
 
 export const PokedexProvider: React.FC = ({ children }) => {
   const [pokedex, setPokedex] = React.useState<PokedexEntry[]>([]);
-  const [config,] = useConfig();
+  const [moves, setMoves] = React.useState<PokemonMove[]>([]);
   const eventService = useEventService();
 
   const loadData = () =>
-    loadPokedex(
-      config.spreadsheetKey,
-      config.pokedexSheet
-    ).then(loadedPokedex => setPokedex(loadedPokedex));
+    Promise.all([
+      fetch("/data/pokedex.json").then(response => response.json()),
+      fetch("/data/moves.json").then(response => response.json()),
+    ]).then(([rawPokedex, rawMoves]) => {
+      setMoves(rawMoves);
+      setPokedex(rawPokedex.map(toPokedexEntry(rawMoves)));
+    });
+
+  console.log(pokedex);
+  console.log(moves);
 
   React.useEffect(() => {
     loadData();
     return eventService.subscribe(loadData);
-  }, [config]);
+  }, []);
 
   return (
-    <PokedexContext.Provider value={pokedex}>
+    <PokedexContext.Provider value={[pokedex, moves]}>
       {children}
     </PokedexContext.Provider>
   );
