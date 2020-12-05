@@ -4,6 +4,7 @@ import { Pokemon } from "../../data/Pokemon";
 import { usePokedexService } from "../hook/usePokedexService";
 import { useConfig } from "./ConfigContext";
 import { useEventService } from "./EventServiceContext";
+import { LoadingView } from "../view/LoadingView";
 
 const PokemonsContext = React.createContext<Pokemon[]>([]);
 
@@ -45,7 +46,7 @@ export const PokemonsProvider: React.FC = ({ children }) => {
 
   return (
     <PokemonsContext.Provider value={pokemons}>
-      {children}
+      {pokemons.length !== 0 ? children :<LoadingView /> }
     </PokemonsContext.Provider>
   );
 };

@@ -3,9 +3,10 @@ import { loadFavoriteMoveSets } from "../../dao/FavoriteMoveSetsDao";
 import { FavoriteMoveSets } from "../../data/pokemon/FavoriteMoveSets";
 import { PokedexEntry } from "../../data/pokemon/PokedexEntry";
 import { PokemonMove } from "../../data/pokemon/PokemonMove";
+import { compareClean, findById, getDistance, getFromPath } from "../../data/Utils";
+import { LoadingView } from "../view/LoadingView";
 import { useConfig } from "./ConfigContext";
 import { useEventService } from "./EventServiceContext";
-import { getFromPath, findById, compareClean, getDistance } from "../../data/Utils";
 
 const PokedexContext = React.createContext<[PokedexEntry[], PokemonMove[]]>([
   [],
@@ -102,7 +103,7 @@ export const PokedexProvider: React.FC = ({ children }) => {
 
   return (
     <PokedexContext.Provider value={[pokedex, moves]}>
-      {moves.length !== 0 ? children : null}
+      {moves.length !== 0 ? children : <LoadingView />}
     </PokedexContext.Provider>
   );
 };
