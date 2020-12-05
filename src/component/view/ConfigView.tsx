@@ -36,9 +36,7 @@ function checkConfig(config: Partial<Config>): config is Config {
     config.spreadsheetKey &&
     config.spreadsheetKey.length > 0 &&
     config.pokemonSheet &&
-    config.pokemonSheet.length > 0 &&
-    config.pokedexSheet &&
-    config.pokedexSheet.length > 0
+    config.pokemonSheet.length > 0
   );
 }
 
@@ -106,14 +104,12 @@ export const ConfigView = () => {
           <TextField
             id="pokedexSheet"
             name="pokedexSheet"
-            label="Pokedex Sheet"
+            label="Moves Sheet (optional)"
             variant="outlined"
             margin="normal"
             defaultValue={newConfig.pokedexSheet}
-            required
             fullWidth
             error={pokedexSheetError}
-            helperText={pokedexSheetError ? "This field is required" : null}
             onChange={event =>
               setNewConfig({ ...newConfig, pokedexSheet: event.target.value })
             }

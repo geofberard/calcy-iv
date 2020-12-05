@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { createHashHistory } from "history";
 import { Page } from "../../data/navigation/Page";
-import { parseElementId } from "../../data/Utils";
+import { findById } from "../../data/Utils";
 
 export const useNavigation: (
   pages: Page[]
@@ -12,7 +12,7 @@ export const useNavigation: (
   );
   const [currentPage, setCurrentPage] = useState<Page>(
     () =>
-      parseElementId(
+      findById(
         historyService.location.pathname.replace("/", ""),
         pages
       ) || pages[0]
@@ -20,7 +20,7 @@ export const useNavigation: (
 
   useEffect(() =>
     historyService.listen((location: Location) => {
-      const target = parseElementId(location.pathname.replace("/", ""), pages);
+      const target = findById(location.pathname.replace("/", ""), pages);
 
       if (currentPage.id !== target.id) {
         setCurrentPage(target);
