@@ -5,12 +5,11 @@ import TableBody from "@material-ui/core/TableBody";
 import TableContainer from "@material-ui/core/TableContainer";
 import * as React from "react";
 import { Pokemon } from "../../../data/Pokemon";
-import { PokedexEntry } from "../../../data/pokemon/PokedexEntry";
 import { ColumnDesc, Fast, Special } from "../../../data/table/ColumnDesc";
 import { SortingRule } from "../../../data/table/SortingRule";
 import { useSearchQuery } from "../../context/SearchQueryContext";
-import { usePokedexService } from "../../hook/usePokedexService";
 import { TableStyleGetterProvider } from "../../context/TableStyleGetterContext";
+import { usePokedexService } from "../../hook/usePokedexService";
 import { PokemonRow } from "./PokemonRow";
 import { PokemonTableHeader } from "./PokemonTableHeader";
 
@@ -35,8 +34,8 @@ const useStyles = makeStyles(theme => ({
 const byQuery = (searchQuery: string) => (pokemon: Pokemon) =>
   !searchQuery ||
   pokemon.name.includes(searchQuery) ||
-  pokemon.fastMove.includes(searchQuery) ||
-  pokemon.specialMove.includes(searchQuery);
+  pokemon.fastMove && pokemon.fastMove.name.includes(searchQuery) ||
+  pokemon.specialMove && pokemon.specialMove.name.includes(searchQuery);
 
 const byRule = (rule: SortingRule) => (a: Pokemon, b: Pokemon) =>
   !rule ? 0 : rule.column.type.sort(rule.column.getValue(a), rule.column.getValue(b)) *
@@ -46,16 +45,6 @@ interface PokemonTableProps {
   pokemons: Pokemon[];
 }
 
-const getPokedexInfo = (pokemon: Pokemon, pokedex: PokedexEntry[]) => {
-  return pokedex.find(pokedexEntry => pokedexEntry.name === pokemon.name);
-};
-
-const hasGoodFastMove = (pokemon: Pokemon, pokedexEntry: PokedexEntry) =>
-  pokedexEntry.attackerMoves.fastMoves.some(move => move.name === pokemon.fastMove);
-
-const hasGoodSpecialMove = (pokemon: Pokemon, pokedexEntry: PokedexEntry) =>
-  pokedexEntry.attackerMoves.specialMoves.some(move => move.name === pokemon.specialMove);
-
 export const PokemonTable = ({ pokemons }: PokemonTableProps) => {
   const classes = useStyles();
   const [sortingRule, setSortingRule] = React.useState<SortingRule>();
@@ -63,16 +52,14 @@ export const PokemonTable = ({ pokemons }: PokemonTableProps) => {
   const [searchQuery] = useSearchQuery();
 
   const styleGetter = (pokemon: Pokemon, column: ColumnDesc) => {
-    // const pokedexEntry = getPokedexInfo(pokemon, pokedex);
-
-    // if (pokedexEntry) {
+    if (pokedexService.getPokedexEntry(pokemon)) {
       if (column === Fast) {
         return pokedexService.hasGoodMove(pokemon, pokemon.fastMove) ? classes.green : classes.red;
       }
       if (column === Special) {
         return pokedexService.hasGoodMove(pokemon, pokemon.specialMove) ? classes.green : classes.red;
       }
-    // }
+    }
     return null;
   };
 

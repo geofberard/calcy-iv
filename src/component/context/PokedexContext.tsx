@@ -4,7 +4,10 @@ import { PokemonMove } from "../../data/pokemon/PokemonMove";
 import { useEventService } from "./EventServiceContext";
 import { PokemonMoveSet } from "../../data/pokemon/PokemonMoveSet";
 
-const PokedexContext = React.createContext<[PokedexEntry[], PokemonMove[]]>([[],[]]);
+const PokedexContext = React.createContext<[PokedexEntry[], PokemonMove[]]>([
+  [],
+  [],
+]);
 
 const toMoveSet = (rawMoveSet: any, moves: PokemonMove[]) =>
   ({
@@ -37,9 +40,6 @@ export const PokedexProvider: React.FC = ({ children }) => {
       setPokedex(rawPokedex.map(toPokedexEntry(rawMoves)));
     });
 
-  console.log(pokedex);
-  console.log(moves);
-
   React.useEffect(() => {
     loadData();
     return eventService.subscribe(loadData);
@@ -47,7 +47,7 @@ export const PokedexProvider: React.FC = ({ children }) => {
 
   return (
     <PokedexContext.Provider value={[pokedex, moves]}>
-      {children}
+      {moves.length !== 0 ? children : null}
     </PokedexContext.Provider>
   );
 };

@@ -21,8 +21,8 @@ export const AppContainer: FC = () => {
   return !config ? (
     <ConfigView />
   ) : (
-    <PokemonsProvider>
-      <PokedexProvider>
+    <PokedexProvider>
+      <PokemonsProvider>
         <SearchQueryProvider>
           <CssBaseline />
           <Navigation
@@ -34,7 +34,7 @@ export const AppContainer: FC = () => {
             {currentPage === Page2 && <Page2View />}
           </Navigation>
         </SearchQueryProvider>
-      </PokedexProvider>
-    </PokemonsProvider>
+      </PokemonsProvider>
+    </PokedexProvider>
   );
 };

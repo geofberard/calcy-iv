@@ -1,0 +1,35 @@
+export interface PokemonRaw {
+  ancestor: boolean;
+  scanDate: Date;
+  pokedexRed: string;
+  name: string;
+  nickname: string;
+  gender: string;
+  level: number;
+  possibleLevels: number;
+  cp: number;
+  hp: number;
+  powerUpDustCost: number;
+  statMinIV: number;
+  statIV: number;
+  statMaxIV: number;
+  statAtt: number;
+  statDef: number;
+  statHP: number;
+  unique: boolean;
+  fastMove: string;
+  specialMove: string;
+  specialMove2: string;
+  dps: number;
+  box: string;
+  custom1: string;
+  custom2: string;
+  saved: number;
+  form: number;
+  isFromEgg: boolean;
+  isLucky: boolean;
+  isBuddyBoosted: boolean;
+  isPurified: boolean;
+  height: number;
+  catchDate: string;
+}

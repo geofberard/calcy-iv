@@ -1,21 +1,17 @@
 import { loadFromSpreadSheet } from "./SpreadSheetUtils";
-import { Pokemon } from "../data/Pokemon";
-
-const sanitizeName = (name: string) =>
-  name.replace("Purifié", "").replace("Normale", "").trim();
+import { PokemonRaw } from "../data/PokemonRaw";
 
 export const loadPokemons = (spreadsheetKey: string, sheetName: string) =>
-  new Promise<Pokemon[]>((resolve, reject) => {
+  new Promise<PokemonRaw[]>((resolve, reject) => {
     loadFromSpreadSheet(spreadsheetKey, sheetName)
       .then(driveData => {
-        const pokemons: Pokemon[] = [];
+        const pokemons: PokemonRaw[] = [];
         for (let i = 0; i < driveData.getNumberOfRows(); i++) {
           pokemons.push({
-            id: driveData.getValue(i, 3) as string,
             ancestor: (driveData.getValue(i, 0) === 1) as boolean,
             scanDate: driveData.getValue(i, 1) as Date,
             pokedexRed: driveData.getValue(i, 2) as string,
-            name: sanitizeName(driveData.getValue(i, 3) as string),
+            name: driveData.getValue(i, 3) as string,
             nickname: driveData.getValue(i, 4) as string,
             gender: driveData.getValue(i, 5) as string,
             level: driveData.getValue(i, 6) as number,
