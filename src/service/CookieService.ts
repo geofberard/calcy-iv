@@ -22,7 +22,7 @@ export const getConfigFromCookie = () => {
 export const saveConfigAsCookie = (config: Config | undefined) => {
   const d = new Date();
   d.setTime(d.getTime() + (10 * 365 * 24 * 60 * 60 * 1000));
-  const cookieValue = `${config.spreadsheetKey}§${config.pokemonSheet}§${config.pokedexSheet}`;
+  const cookieValue = `${config.spreadsheetKey}§${config.pokemonSheet}§${config.pokedexSheet || ""}`;
   document.cookie = `${CONFIG_CNAME}=${cookieValue};expires=${d.toUTCString()}`;
 };
 

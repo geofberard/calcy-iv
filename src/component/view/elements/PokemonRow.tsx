@@ -6,15 +6,7 @@ import { Pokemon } from "../../../data/Pokemon";
 import { POKEMON_COLUMNS } from "../../../data/table/ColumnDesc";
 import { usePokemon } from "../../context/PokemonContext";
 import { useStyleGetter } from "../../context/TableStyleGetterContext";
-
-const useStyles = makeStyles(theme => ({
-  idCell: {
-    width: 10,
-  },
-  focused: {
-    backgroundColor: theme.palette.grey["100"],
-  },
-}));
+import { useTableStyles } from "./PokemonTable";
 
 interface PokemonTableProps {
   index: number;
@@ -22,7 +14,7 @@ interface PokemonTableProps {
 }
 
 export const PokemonRow = ({ index, pokemon }: PokemonTableProps) => {
-  const classes = useStyles();
+  const classes = useTableStyles();
   const [currentPokemon, setCurrentPokemon] = usePokemon();
   const getStyles = useStyleGetter();
 

@@ -13,15 +13,24 @@ import { usePokedexService } from "../../hook/usePokedexService";
 import { PokemonRow } from "./PokemonRow";
 import { PokemonTableHeader } from "./PokemonTableHeader";
 
-const useStyles = makeStyles(theme => ({
+export const useTableStyles = makeStyles(theme => ({
   table: {
     minWidth: 650,
   },
   tableContainer: {
-    height: "100%",
+    maxHeight: "100%",
   },
   idCell: {
     width: 10,
+  },
+  focused: {
+    backgroundColor: theme.palette.grey["100"],
+    "& $green": {
+      backgroundColor: theme.palette.success.main,
+    },
+    "& $red": {
+      backgroundColor: theme.palette.error.main,
+    },
   },
   red: {
     backgroundColor: theme.palette.error.light,
@@ -34,6 +43,9 @@ const useStyles = makeStyles(theme => ({
 const byQuery = (searchQuery: string) => (pokemon: Pokemon) =>
   !searchQuery ||
   pokemon.name.includes(searchQuery) ||
+  pokemon.statIV.toString().includes(searchQuery) ||
+  pokemon.cp.toString().includes(searchQuery) ||
+  pokemon.hp.toString().includes(searchQuery) ||
   pokemon.fastMove && pokemon.fastMove.name.includes(searchQuery) ||
   pokemon.specialMove && pokemon.specialMove.name.includes(searchQuery);
 
@@ -46,7 +58,7 @@ interface PokemonTableProps {
 }
 
 export const PokemonTable = ({ pokemons }: PokemonTableProps) => {
-  const classes = useStyles();
+  const classes = useTableStyles();
   const [sortingRule, setSortingRule] = React.useState<SortingRule>();
   const pokedexService = usePokedexService();
   const [searchQuery] = useSearchQuery();
