@@ -13,7 +13,7 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --watch",
     "build": "webpack -p --progress",
-    "deploy": "webpack --mode production && git add . && git commit -m Packaging && git push origin HEAD:gh-pages --force  && git reset HEAD~1 --hard"
+    "deploy": "webpack --mode production && git add . && git commit -m Packaging && git push origin :gh-pages ; git subtree push --prefix=public origin gh-pages && git reset HEAD~1 --hard"
   },
   "devDependencies": {
     "@types/react": "16.9.32",

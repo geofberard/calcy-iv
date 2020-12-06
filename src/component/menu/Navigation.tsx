@@ -168,7 +168,7 @@ export const Navigation: FC<NavigationProps> = ({
             <MenuIcon />
           </IconButton>
           <Typography variant="h5" noWrap>
-            Pokemon Storage
+            Pokemon
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>

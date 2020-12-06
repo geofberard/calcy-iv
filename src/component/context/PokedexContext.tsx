@@ -85,8 +85,8 @@ export const PokedexProvider: React.FC = ({ children }) => {
 
   const loadData = () =>
     Promise.all([
-      fetch("/data/pokedex.json").then(response => response.json()),
-      fetch("/data/moves.json").then(response => response.json()),
+      fetch("data/pokedex.json").then(response => response.json()),
+      fetch("data/moves.json").then(response => response.json()),
       loadFavoriteMoveSets(config.spreadsheetKey, config.pokedexSheet),
     ]).then(([rawPokedex, rawMoves, favoriteMoveSets]) => {
       setMoves(rawMoves);
