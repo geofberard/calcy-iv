@@ -1,14 +1,15 @@
-import { Card, CardContent, CardMedia } from "@material-ui/core";
+import { Card, CardContent, CardMedia, Grid } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import * as React from "react";
 import SaveIcon from "@material-ui/icons/Save";
+import * as React from "react";
 import { Config } from "../../data/Config";
-import { useConfig } from "../context/ConfigContext";
 import { getConfigFromCookie } from "../../service/CookieService";
+import { useConfig } from "../context/ConfigContext";
+import HelpDialog from "./elements/HelpDialog";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -125,6 +126,7 @@ export const ConfigView = () => {
           >
             Save
           </Button>
+          <HelpDialog/>
         </CardContent>
       </Card>
     </Container>
