@@ -46,8 +46,6 @@ const computeMoves = (
     favoriteMoveNames.length !== 0 &&
     favoriteMoveNames.map(name => findByNameSafe(name, moves));
 
-  console.log(favoriteMoveNames, completeFavoriteMoveSet);
-
   return (
     completeFavoriteMoveSet || defaultMoveIds.map(id => findById(id, moves))
   );
