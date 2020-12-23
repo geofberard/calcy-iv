@@ -1,17 +1,9 @@
 import * as React from "react";
 import { Pokemon } from "../../data/Pokemon";
-import { StateContext } from "./StateContext";
+import { createStateContext, stateContextProvider } from "./StateContext";
 
-const PokemonContext = React.createContext<StateContext<Pokemon>>(null);
+const PokemonContext = createStateContext<Pokemon>();
 
-export const PokemonProvider: React.FC = ({ children }) => {
-  const [pokemon, setPokemon] = React.useState<Pokemon>();
-
-  return (
-    <PokemonContext.Provider value={[pokemon, setPokemon]}>
-      {children}
-    </PokemonContext.Provider>
-  );
-};
+export const PokemonProvider = stateContextProvider(PokemonContext);
 
 export const usePokemon = () => React.useContext(PokemonContext);

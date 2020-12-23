@@ -1,16 +1,8 @@
 import * as React from "react";
-import { StateContext } from "./StateContext";
+import { createStateContext, stateContextProvider } from "./StateContext";
 
-const SearchQueryContext = React.createContext<StateContext<string>>(null);
+const SearchQueryContext = createStateContext<string>();
 
-export const SearchQueryProvider: React.FC = ({ children }) => {
-  const [pokemon, setPokemon] = React.useState<string>();
-
-  return (
-    <SearchQueryContext.Provider value={[pokemon, setPokemon]}>
-      {children}
-    </SearchQueryContext.Provider>
-  );
-};
+export const SearchQueryProvider = stateContextProvider(SearchQueryContext, "");
 
 export const useSearchQuery = () => React.useContext(SearchQueryContext);

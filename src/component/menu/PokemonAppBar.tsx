@@ -1,11 +1,7 @@
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import InputBase from "@material-ui/core/InputBase";
-import {
-  fade,
-  makeStyles,
-  Theme
-} from "@material-ui/core/styles";
+import { fade, makeStyles, Theme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import CachedIcon from "@material-ui/icons/Cached";
@@ -16,9 +12,11 @@ import SearchIcon from "@material-ui/icons/Search";
 import SettingsIcon from "@material-ui/icons/Settings";
 import * as React from "react";
 import { refreshEvent as REFRESH } from "../../data/event/AppEvents";
+import { EditMode } from "../../data/mode/Modes";
 import { useConfig } from "../context/ConfigContext";
 import { useEventService } from "../context/EventServiceContext";
 import { useSearchQuery } from "../context/SearchQueryContext";
+import { createModeButton } from "./ModeButton";
 import { ShareButton } from "./ShareButton";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -84,6 +82,8 @@ export const PokemonAppBar = ({ showMenu, toggleMenu }: PokemonAppBar) => {
   const eventService = useEventService();
   const [config, setConfig, resetConfig] = useConfig();
 
+  const EditButton = createModeButton(EditMode);
+
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
@@ -116,6 +116,7 @@ export const PokemonAppBar = ({ showMenu, toggleMenu }: PokemonAppBar) => {
         </div>
         <div className={classes.grow} />
         <div>
+          <EditButton />
           <IconButton
             aria-label="Refresh Data"
             color="inherit"

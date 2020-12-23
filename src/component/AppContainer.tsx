@@ -11,6 +11,7 @@ import { ConfigView } from "./view/ConfigView";
 import { Page2View } from "./view/Page2View";
 import { PokemonListView } from "./view/PokemonListView";
 import { SearchQueryProvider } from "./context/SearchQueryContext";
+import { ModeProvider } from "./context/ModeContext";
 
 const ALL_PAGES = [TableView, GridView];
 
@@ -23,17 +24,19 @@ export const AppContainer: FC = () => {
   ) : (
     <PokedexProvider>
       <PokemonsProvider>
-        <SearchQueryProvider>
-          <CssBaseline />
-          <Navigation
-            pages={ALL_PAGES}
-            currentPage={currentPage}
-            onChange={setCurrentPage}
-          >
-            {currentPage === TableView && <PokemonListView />}
-            {currentPage === GridView && <Page2View />}
-          </Navigation>
-        </SearchQueryProvider>
+        <ModeProvider>
+          <SearchQueryProvider>
+            <CssBaseline />
+            <Navigation
+              pages={ALL_PAGES}
+              currentPage={currentPage}
+              onChange={setCurrentPage}
+            >
+              {currentPage === TableView && <PokemonListView />}
+              {currentPage === GridView && <Page2View />}
+            </Navigation>
+          </SearchQueryProvider>
+        </ModeProvider>
       </PokemonsProvider>
     </PokedexProvider>
   );
