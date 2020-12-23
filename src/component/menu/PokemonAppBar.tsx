@@ -2,7 +2,6 @@ import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import InputBase from "@material-ui/core/InputBase";
 import {
-  createStyles,
   fade,
   makeStyles,
   Theme
@@ -15,66 +14,64 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import SettingsIcon from "@material-ui/icons/Settings";
-import ShareIcon from "@material-ui/icons/Share";
 import * as React from "react";
 import { refreshEvent as REFRESH } from "../../data/event/AppEvents";
-import { getUrlFromConfig } from "../../service/UrlParamService";
 import { useConfig } from "../context/ConfigContext";
 import { useEventService } from "../context/EventServiceContext";
 import { useSearchQuery } from "../context/SearchQueryContext";
+import { ShareButton } from "./ShareButton";
 
 const useStyles = makeStyles((theme: Theme) => ({
-    menuButton: {
-      marginRight: theme.spacing(2),
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  exitButton: {
+    marginLeft: theme.spacing(2),
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    exitButton: {
-      marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(3),
+      width: "auto",
     },
-    grow: {
-      flexGrow: 1,
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  inputRoot: {
+    color: "inherit",
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
     },
-    search: {
-      position: "relative",
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: fade(theme.palette.common.white, 0.15),
-      "&:hover": {
-        backgroundColor: fade(theme.palette.common.white, 0.25),
-      },
-      marginRight: theme.spacing(2),
-      marginLeft: 0,
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
-        marginLeft: theme.spacing(3),
-        width: "auto",
-      },
-    },
-    searchIcon: {
-      padding: theme.spacing(0, 2),
-      height: "100%",
-      position: "absolute",
-      pointerEvents: "none",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    inputRoot: {
-      color: "inherit",
-    },
-    inputInput: {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("md")]: {
-        width: "20ch",
-      },
-    },
-    appBar: {
-      zIndex: theme.zIndex.drawer + 1,
-    }
-  })
-);
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
+}));
 
 interface PokemonAppBar {
   showMenu: boolean;
@@ -126,15 +123,7 @@ export const PokemonAppBar = ({ showMenu, toggleMenu }: PokemonAppBar) => {
           >
             <CachedIcon />
           </IconButton>
-          <IconButton
-            aria-label="Share"
-            color="inherit"
-            onClick={() =>
-              navigator.clipboard.writeText(getUrlFromConfig(config))
-            }
-          >
-            <ShareIcon />
-          </IconButton>
+          <ShareButton />
           <IconButton
             aria-label="Config"
             color="inherit"
