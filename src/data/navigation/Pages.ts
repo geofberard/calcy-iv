@@ -1,14 +1,15 @@
-import ListIcon from "@material-ui/icons/List";
+import TableChartIcon from "@material-ui/icons/TableChart";
+import AppsIcon from "@material-ui/icons/Apps";
 import { Page } from "./Page";
 
-export const Page1: Page = {
-  id: "pokemons",
-  label: "Pokemons",
-  Icon: ListIcon,
+export const TableView: Page = {
+  id: "table",
+  label: "Table View",
+  Icon: TableChartIcon,
 };
 
-export const Page2: Page = {
-  id: "page2",
-  label: "Page2",
-  Icon: ListIcon,
+export const GridView: Page = {
+  id: "grid",
+  label: "App View",
+  Icon: AppsIcon,
 };
