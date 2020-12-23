@@ -18,19 +18,10 @@ export const useTableStyles = makeStyles(theme => ({
     minWidth: 650,
   },
   tableContainer: {
-    maxHeight: "100%",
+    maxHeight: `calc(100vh - ${theme.mixins.toolbar.minHeight}px - 64px)`,
   },
   idCell: {
     width: 10,
-  },
-  focused: {
-    backgroundColor: theme.palette.grey["100"],
-    "& $green": {
-      backgroundColor: theme.palette.success.main,
-    },
-    "& $red": {
-      backgroundColor: theme.palette.error.main,
-    },
   },
   red: {
     backgroundColor: theme.palette.error.light,

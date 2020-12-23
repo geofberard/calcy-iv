@@ -17,11 +17,8 @@ export const useMode: (mode: Mode) => StateContext<boolean> = mode => {
 
   const setEnabled = (enabled: boolean) => {
     const otherModes = modes.filter(current => current !== mode);
-    console.log(enabled, [...otherModes, mode], otherModes);
     setModes(enabled ? [...otherModes, mode] : otherModes);
   };
-
-  console.log(isEnabled, modes);
 
   return [isEnabled, setEnabled];
 };

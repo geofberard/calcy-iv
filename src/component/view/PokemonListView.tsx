@@ -1,25 +1,31 @@
-import * as React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { PokemonTable } from "./elements/PokemonTable";
+import * as React from "react";
 import { PokemonProvider } from "../context/PokemonContext";
 import { usePokemons } from "../context/PokemonsContext";
+import { SelectedPokemonsProvider } from "../context/SelectedPokemonsContext";
+import { PokemonTable } from "./elements/PokemonTable";
+import { PokemonTableToolbar } from "./elements/PokemonTableToolbar";
 
 const useStyles = makeStyles(theme => ({
   tableContainer: {
-    padding: theme.spacing(3),
     height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`,
   },
 }));
 
 export const PokemonListView = () => {
   const classes = useStyles();
-  const pokemons = usePokemons();
+  const [pokemons] = usePokemons();
 
   return (
-    <PokemonProvider>
+    <>
       <div className={classes.tableContainer}>
-        <PokemonTable pokemons={pokemons}/>
+        <PokemonProvider>
+          <SelectedPokemonsProvider>
+            <PokemonTableToolbar />
+            <PokemonTable pokemons={pokemons} />
+          </SelectedPokemonsProvider>
+        </PokemonProvider>
       </div>
-    </PokemonProvider>
+    </>
   );
 };
