@@ -28,25 +28,14 @@ export const PokemonTableToolbar = () => {
 
   return (
     <Toolbar variant="dense">
-      {selectedPokemons.length > 0 ? (
-        <Typography
-          className={classes.title}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {selectedPokemons.length} selected
-        </Typography>
-      ) : (
-        <Typography
-          className={classes.title}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Statistics
-        </Typography>
-      )}
+      <Typography
+        className={classes.title}
+        color="inherit"
+        variant="subtitle1"
+        component="div"
+      >
+        {selectedPokemons.length} selected
+      </Typography>
       {selectedPokemons.length > 0 && (
         <Tooltip title="Delete">
           <IconButton aria-label="delete" onClick={deleteSelected}>

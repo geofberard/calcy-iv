@@ -17,9 +17,6 @@ export const useTableStyles = makeStyles(theme => ({
   table: {
     minWidth: 650,
   },
-  tableContainer: {
-    maxHeight: `calc(100vh - ${theme.mixins.toolbar.minHeight}px - 64px)`,
-  },
   idCell: {
     width: 10,
   },
@@ -68,7 +65,7 @@ export const PokemonTable = ({ pokemons }: PokemonTableProps) => {
 
   return (
     <TableStyleGetterProvider getStyle={styleGetter}>
-      <TableContainer component={Paper} className={classes.tableContainer}>
+      <TableContainer component={Paper}>
         <Table
           stickyHeader
           className={classes.table}
