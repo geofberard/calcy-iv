@@ -6,6 +6,7 @@ import {
   saveConfigAsCookie,
 } from "../../service/CookieService";
 import { getConfigFromUrl } from "../../service/UrlParamService";
+import { ConfigView } from "../view/ConfigView";
 
 type ConfigContextValue = [Config, (config: Config) => void, () => void];
 
@@ -28,7 +29,7 @@ export const ConfigProvider: React.FC = ({ children }) => {
 
   return (
     <ConfigContext.Provider value={[config, saveConfig, resetConfig]}>
-      {children}
+      {!config ? <ConfigView /> : children}
     </ConfigContext.Provider>
   );
 };

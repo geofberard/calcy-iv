@@ -1,11 +1,21 @@
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { green, red } from "@material-ui/core/colors";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import * as React from "react";
 import { FC } from "react";
+import { GridView, TableView } from "../data/navigation/Pages";
 import { useSpreadSheet } from "../service/useSpreadSheet";
-import { AppContainer } from "./AppContainer";
 import { ConfigProvider } from "./context/ConfigContext";
 import { EventServiceProvider } from "./context/EventServiceContext";
+import { ModeProvider } from "./context/ModeContext";
+import { PokedexProvider } from "./context/PokedexContext";
+import { PokemonsProvider } from "./context/PokemonsContext";
+import { Providers } from "./context/Providers";
+import { SearchQueryProvider } from "./context/SearchQueryContext";
+import { Navigation } from "./menu/Navigation";
+import { useNavigation } from "./menu/useNavigation";
+import { Page2View } from "./view/Page2View";
+import { PokemonListView } from "./view/PokemonListView";
 
 const theme = createMuiTheme({
   palette: {
@@ -14,18 +24,36 @@ const theme = createMuiTheme({
   },
 });
 
+const ALL_PAGES = [TableView, GridView];
+
 export const RootApp: FC = () => {
+  const [currentPage, setCurrentPage] = useNavigation(ALL_PAGES);
   const isAvailable = useSpreadSheet();
 
   return (
     isAvailable && (
-      <EventServiceProvider>
-        <ConfigProvider>
-          <ThemeProvider theme={theme}>
-            <AppContainer />
-          </ThemeProvider>
-        </ConfigProvider>
-      </EventServiceProvider>
+      <ThemeProvider theme={theme}>
+        <Providers
+          combining={[
+            EventServiceProvider,
+            ConfigProvider,
+            PokedexProvider,
+            PokemonsProvider,
+            ModeProvider,
+            SearchQueryProvider,
+          ]}
+        >
+          <CssBaseline />
+          <Navigation
+            pages={ALL_PAGES}
+            currentPage={currentPage}
+            onChange={setCurrentPage}
+          >
+            {currentPage === TableView && <PokemonListView />}
+            {currentPage === GridView && <Page2View />}
+          </Navigation>
+        </Providers>
+      </ThemeProvider>
     )
   );
 };
