@@ -74,7 +74,7 @@ const toPokedexEntry = (
 
   const value = {
     ...rawPokedexEntry,
-    img: `https://images.gameinfo.io/pokemon-trimmed/60/${indexString}-00.webp`,
+    img: `https://images.gameinfo.io/pokemon/256/${indexString}-00.webp`,
     attackerMoves: {
       fastMoves: compute(["attackerMoves", "fastMoves"]),
       specialMoves: compute(["attackerMoves", "specialMoves"]),

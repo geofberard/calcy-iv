@@ -39,6 +39,7 @@ export const PokemonsProvider: React.FC = ({ children }) => {
               ({
                 id: computeId(rawPokemon),
                 name: sanitizeName(rawPokemon.name),
+                nickname: rawPokemon.nickname,
                 cp: rawPokemon.cp,
                 hp: rawPokemon.hp,
                 statIV: rawPokemon.statIV,

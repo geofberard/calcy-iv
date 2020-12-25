@@ -14,7 +14,7 @@ import { Providers } from "./context/Providers";
 import { SearchQueryProvider } from "./context/SearchQueryContext";
 import { Navigation } from "./menu/Navigation";
 import { useNavigation } from "./menu/useNavigation";
-import { Page2View } from "./view/Page2View";
+import { PokemonGridView } from "./view/PokemonGridView";
 import { PokemonListView } from "./view/PokemonListView";
 
 const theme = createMuiTheme({
@@ -50,7 +50,7 @@ export const RootApp: FC = () => {
             onChange={setCurrentPage}
           >
             {currentPage === TableView && <PokemonListView />}
-            {currentPage === GridView && <Page2View />}
+            {currentPage === GridView && <PokemonGridView />}
           </Navigation>
         </Providers>
       </ThemeProvider>
