@@ -1,9 +1,9 @@
 import { Type } from "./Type";
 import { PokemonMoveSet } from "./PokemonMoveSet";
-import { PokemonMove } from "./PokemonMove";
 
 export interface PokedexEntry {
     index: number;
+    img:string;
     name: string;
     types: Type[];
     attackerMoves: PokemonMoveSet;

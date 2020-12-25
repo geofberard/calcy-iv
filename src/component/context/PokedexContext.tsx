@@ -3,7 +3,12 @@ import { loadFavoriteMoveSets } from "../../dao/FavoriteMoveSetsDao";
 import { FavoriteMoveSets } from "../../data/pokemon/FavoriteMoveSets";
 import { PokedexEntry } from "../../data/pokemon/PokedexEntry";
 import { PokemonMove } from "../../data/pokemon/PokemonMove";
-import { compareClean, findById, getDistance, getFromPath } from "../../data/Utils";
+import {
+  compareClean,
+  findById,
+  getDistance,
+  getFromPath,
+} from "../../data/Utils";
 import { LoadingView } from "../view/LoadingView";
 import { useConfig } from "./ConfigContext";
 import { useEventService } from "./EventServiceContext";
@@ -17,10 +22,14 @@ export const findByNameSafe: <T extends { name: string }>(
   name: string,
   elements: T[]
 ) => T = (name, elements) => {
-  const foundElement = elements.find(element => compareClean(element.name, name));
+  const foundElement = elements.find(element =>
+    compareClean(element.name, name)
+  );
 
   if (!foundElement) {
-    const closest = elements.sort((a,b) => getDistance(a.name,name) > getDistance(b.name,name) ? 1 : -1)[0].name;
+    const closest = elements.sort((a, b) =>
+      getDistance(a.name, name) > getDistance(b.name, name) ? 1 : -1
+    )[0].name;
     alert(`Could not find ${name} did you mean ${closest}`);
   }
 
@@ -30,7 +39,8 @@ export const findByNameSafe: <T extends { name: string }>(
 export const findByName: <T extends { name: string }>(
   name: string,
   elements: T[]
-) => T = (name, elements) => elements.find(element => compareClean(element.name, name));
+) => T = (name, elements) =>
+  elements.find(element => compareClean(element.name, name));
 
 const computeMoves = (
   rawPokedexEntry: any,
@@ -60,8 +70,11 @@ const toPokedexEntry = (
   const compute = (path: string[]) =>
     computeMoves(rawPokedexEntry, favoriteMoveSet, path, moves);
 
+  const indexString = rawPokedexEntry.index.toString().padStart(3, "0");
+
   const value = {
     ...rawPokedexEntry,
+    img: `https://images.gameinfo.io/pokemon-trimmed/60/${indexString}-00.webp`,
     attackerMoves: {
       fastMoves: compute(["attackerMoves", "fastMoves"]),
       specialMoves: compute(["attackerMoves", "specialMoves"]),
@@ -88,10 +101,7 @@ export const PokedexProvider: React.FC = ({ children }) => {
       loadFavoriteMoveSets(config.spreadsheetKey, config.pokedexSheet),
     ]).then(([rawPokedex, rawMoves, favoriteMoveSets]) => {
       setMoves(rawMoves);
-      setPokedex(
-        rawPokedex
-          .map(toPokedexEntry(rawMoves, favoriteMoveSets))
-      );
+      setPokedex(rawPokedex.map(toPokedexEntry(rawMoves, favoriteMoveSets)));
     });
 
   React.useEffect(() => {
