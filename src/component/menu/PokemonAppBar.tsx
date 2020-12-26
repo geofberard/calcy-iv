@@ -10,6 +10,8 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import SettingsIcon from "@material-ui/icons/Settings";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import ShareIcon from "@material-ui/icons/Share";
 import * as React from "react";
 import { refreshEvent as REFRESH } from "../../data/event/AppEvents";
 import { EditMode } from "../../data/mode/Modes";
@@ -17,7 +19,10 @@ import { useConfig } from "../context/ConfigContext";
 import { useEventService } from "../context/EventServiceContext";
 import { useSearchQuery } from "../context/SearchQueryContext";
 import { createModeButton } from "./ModeButton";
-import { ShareButton } from "./ShareButton";
+import { AckButton } from "./AckButton";
+import { getUrlFromConfig } from "../../service/UrlParamService";
+import { serializePokemons } from "../../service/PokemonService";
+import { usePokemons } from "../context/PokemonsContext";
 
 const useStyles = makeStyles((theme: Theme) => ({
   menuButton: {
@@ -71,6 +76,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+const copy = (value: string) => navigator.clipboard.writeText(value);
+
 interface PokemonAppBar {
   showMenu: boolean;
   toggleMenu: () => void;
@@ -81,6 +88,7 @@ export const PokemonAppBar = ({ showMenu, toggleMenu }: PokemonAppBar) => {
   const classes = useStyles();
   const eventService = useEventService();
   const [config, setConfig, resetConfig] = useConfig();
+  const [pokemon] = usePokemons();
 
   const EditButton = createModeButton(EditMode);
 
@@ -124,7 +132,19 @@ export const PokemonAppBar = ({ showMenu, toggleMenu }: PokemonAppBar) => {
           >
             <CachedIcon />
           </IconButton>
-          <ShareButton />
+          <AckButton
+            label="Download Data"
+            ackMessage="Updated Data has been copied. You can past them in your spreadsheet."
+            ackDuration={6000}
+            onClick={() => copy(serializePokemons(pokemon))}
+            Icon={GetAppIcon}
+          />
+          <AckButton
+            label="Share"
+            ackMessage="Sharing Url has been copied"
+            onClick={() => copy(getUrlFromConfig(config))}
+            Icon={ShareIcon}
+          />
           <IconButton
             aria-label="Config"
             color="inherit"

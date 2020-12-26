@@ -3,6 +3,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import * as React from "react";
 import { EditMode } from "../../../data/mode/Modes";
 import { Pokemon } from "../../../data/Pokemon";
+import { getPokemonImage } from "../../../service/PokemonService";
 import { useMode } from "../../context/ModeContext";
 import { usePokemon } from "../../context/PokemonContext";
 import { useInSelectedPokemon } from "../../context/SelectedPokemonsContext";
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: "relative",
     padding: 10,
     textAlign: "center",
-    borderRadius: 5
+    borderRadius: 5,
   },
   image: {
     width: 120,
@@ -102,10 +103,7 @@ export const PokemonGridItem = ({ pokemon }: PokemonGridItemProps) => {
           <span className={classes.pcValue}>{pokemon.cp}</span>
         </div>
         <img
-          src={
-            pokedex.getPokedexEntry(pokemon) &&
-            pokedex.getPokedexEntry(pokemon).img
-          }
+          src={getPokemonImage(pokemon)}
           className={classes.image}
           alt="pokemon"
         />

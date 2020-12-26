@@ -1,7 +1,9 @@
 import { PokemonMove } from "./pokemon/PokemonMove";
+import { PokemonRaw } from "./PokemonRaw";
 
 export interface Pokemon {
   id: string;
+  pokedexRef: string;
   name: string;
   nickname: string;
   cp: number;
@@ -10,4 +12,5 @@ export interface Pokemon {
   fastMove: PokemonMove;
   specialMove: PokemonMove;
   specialMove2: PokemonMove;
+  raw: PokemonRaw;
 }

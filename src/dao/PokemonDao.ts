@@ -1,6 +1,8 @@
 import { loadFromSpreadSheet } from "./SpreadSheetUtils";
 import { PokemonRaw } from "../data/PokemonRaw";
 
+
+
 export const loadPokemons = (spreadsheetKey: string, sheetName: string) =>
   new Promise<PokemonRaw[]>((resolve, reject) => {
     loadFromSpreadSheet(spreadsheetKey, sheetName)
@@ -8,7 +10,7 @@ export const loadPokemons = (spreadsheetKey: string, sheetName: string) =>
         const pokemons: PokemonRaw[] = [];
         for (let i = 0; i < driveData.getNumberOfRows(); i++) {
           pokemons.push({
-            ancestor: (driveData.getValue(i, 0) === 1) as boolean,
+            ancestor: driveData.getValue(i, 0) as number,
             scanDate: driveData.getValue(i, 1) as Date,
             pokedexRed: driveData.getValue(i, 2) as string,
             name: driveData.getValue(i, 3) as string,
@@ -25,7 +27,7 @@ export const loadPokemons = (spreadsheetKey: string, sheetName: string) =>
             statAtt: driveData.getValue(i, 14) as number,
             statDef: driveData.getValue(i, 15) as number,
             statHP: driveData.getValue(i, 16) as number,
-            unique: (driveData.getValue(i, 17) === 1) as boolean,
+            unique: driveData.getValue(i, 17) as number,
             fastMove: driveData.getValue(i, 18) as string,
             specialMove: driveData.getValue(i, 19) as string,
             specialMove2: driveData.getValue(i, 20) as string,
@@ -35,12 +37,12 @@ export const loadPokemons = (spreadsheetKey: string, sheetName: string) =>
             custom2: driveData.getValue(i, 24) as string,
             saved: driveData.getValue(i, 25) as number,
             form: driveData.getValue(i, 26) as number,
-            isFromEgg: (driveData.getValue(i, 27) === 1) as boolean,
-            isLucky: (driveData.getValue(i, 28) === 1) as boolean,
-            isBuddyBoosted: (driveData.getValue(i, 29) === 1) as boolean,
-            isPurified: (driveData.getValue(i, 30) === 4) as boolean,
+            isFromEgg: driveData.getValue(i, 27) as number,
+            isLucky: driveData.getValue(i, 28) as number,
+            isBuddyBoosted: driveData.getValue(i, 29) as number,
+            isPurified: driveData.getValue(i, 30) as number,
             height: driveData.getValue(i, 31) as number,
-            catchDate: driveData.getValue(i, 32) as string,
+            catchDate: driveData.getValue(i, 32) as Date,
           });
         }
         resolve(pokemons);

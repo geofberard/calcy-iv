@@ -38,6 +38,7 @@ export const PokemonsProvider: React.FC = ({ children }) => {
             rawPokemon =>
               ({
                 id: computeId(rawPokemon),
+                pokedexRef: rawPokemon.pokedexRed,
                 name: sanitizeName(rawPokemon.name),
                 nickname: rawPokemon.nickname,
                 cp: rawPokemon.cp,
@@ -46,6 +47,7 @@ export const PokemonsProvider: React.FC = ({ children }) => {
                 fastMove: pokedexService.parseMove(rawPokemon.fastMove),
                 specialMove: pokedexService.parseMove(rawPokemon.specialMove),
                 specialMove2: pokedexService.parseMove(rawPokemon.specialMove2),
+                raw: rawPokemon,
               } as Pokemon)
           )
         )

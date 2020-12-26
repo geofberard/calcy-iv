@@ -1,5 +1,5 @@
 export interface PokemonRaw {
-  ancestor: boolean;
+  ancestor: number;
   scanDate: Date;
   pokedexRed: string;
   name: string;
@@ -16,7 +16,7 @@ export interface PokemonRaw {
   statAtt: number;
   statDef: number;
   statHP: number;
-  unique: boolean;
+  unique: number;
   fastMove: string;
   specialMove: string;
   specialMove2: string;
@@ -26,10 +26,10 @@ export interface PokemonRaw {
   custom2: string;
   saved: number;
   form: number;
-  isFromEgg: boolean;
-  isLucky: boolean;
-  isBuddyBoosted: boolean;
-  isPurified: boolean;
+  isFromEgg: number;
+  isLucky: number;
+  isBuddyBoosted: number;
+  isPurified: number;
   height: number;
-  catchDate: string;
+  catchDate: Date;
 }

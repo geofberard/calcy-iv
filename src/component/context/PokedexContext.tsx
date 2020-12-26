@@ -70,11 +70,8 @@ const toPokedexEntry = (
   const compute = (path: string[]) =>
     computeMoves(rawPokedexEntry, favoriteMoveSet, path, moves);
 
-  const indexString = rawPokedexEntry.index.toString().padStart(3, "0");
-
   const value = {
     ...rawPokedexEntry,
-    img: `https://images.gameinfo.io/pokemon/256/${indexString}-00.webp`,
     attackerMoves: {
       fastMoves: compute(["attackerMoves", "fastMoves"]),
       specialMoves: compute(["attackerMoves", "specialMoves"]),
