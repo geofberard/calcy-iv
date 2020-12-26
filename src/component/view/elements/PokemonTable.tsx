@@ -8,6 +8,7 @@ import { Pokemon } from "../../../data/Pokemon";
 import { ColumnDesc, Fast, Special } from "../../../data/table/ColumnDesc";
 import { SortingRule } from "../../../data/table/SortingRule";
 import { useSearchQuery } from "../../context/SearchQueryContext";
+import { useSorting } from "../../context/SortingContext";
 import { TableStyleGetterProvider } from "../../context/TableStyleGetterContext";
 import { usePokedexService } from "../../hook/usePokedexService";
 import { PokemonRow } from "./PokemonRow";
@@ -28,28 +29,13 @@ export const useTableStyles = makeStyles(theme => ({
   },
 }));
 
-const byQuery = (searchQuery: string) => (pokemon: Pokemon) =>
-  !searchQuery ||
-  pokemon.name.includes(searchQuery) ||
-  pokemon.statIV.toString().includes(searchQuery) ||
-  pokemon.cp.toString().includes(searchQuery) ||
-  pokemon.hp.toString().includes(searchQuery) ||
-  pokemon.fastMove && pokemon.fastMove.name.includes(searchQuery) ||
-  pokemon.specialMove && pokemon.specialMove.name.includes(searchQuery);
-
-const byRule = (rule: SortingRule) => (a: Pokemon, b: Pokemon) =>
-  !rule ? 0 : rule.column.type.sort(rule.column.getValue(a), rule.column.getValue(b)) *
-      (rule.ascending ? 1 : -1);
-
 interface PokemonTableProps {
-  pokemons: Pokemon[];
+  pokemons?: Pokemon[];
 }
 
-export const PokemonTable = ({ pokemons }: PokemonTableProps) => {
+export const PokemonTable = ({ pokemons= [] }: PokemonTableProps) => {
   const classes = useTableStyles();
-  const [sortingRule, setSortingRule] = React.useState<SortingRule>();
   const pokedexService = usePokedexService();
-  const [searchQuery] = useSearchQuery();
 
   const styleGetter = (pokemon: Pokemon, column: ColumnDesc) => {
     if (pokedexService.getPokedexEntry(pokemon)) {
@@ -72,14 +58,9 @@ export const PokemonTable = ({ pokemons }: PokemonTableProps) => {
           size="small"
           aria-label="a dense table"
         >
-          <PokemonTableHeader
-            sortingRule={sortingRule}
-            setSortingRule={setSortingRule}
-          />
+          <PokemonTableHeader />
           <TableBody>
             {pokemons
-              .filter(byQuery(searchQuery))
-              .sort(byRule(sortingRule))
               .map((pokemon, index) => (
                 <PokemonRow index={index} pokemon={pokemon} />
               ))}

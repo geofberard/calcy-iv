@@ -11,6 +11,7 @@ import { SortingRule } from "../../../data/table/SortingRule";
 import { useMode } from "../../context/ModeContext";
 import { usePokemons } from "../../context/PokemonsContext";
 import { useSelectedPokemons } from "../../context/SelectedPokemonsContext";
+import { useSorting } from "../../context/SortingContext";
 
 const updateRule = (rule: SortingRule, column: ColumnDesc) => ({
   column,
@@ -23,11 +24,6 @@ const isActive = (rule: SortingRule, column: ColumnDesc) =>
 const getDirection = (rule: SortingRule, column: ColumnDesc) =>
   rule && rule.column === column && rule.ascending ? "asc" : "desc";
 
-interface PokemonTableHeaderProps {
-  sortingRule: SortingRule;
-  setSortingRule: (rule: SortingRule) => void;
-}
-
 const useStyles = makeStyles(theme => ({
   idCell: {
     width: 10,
@@ -37,14 +33,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const PokemonTableHeader = ({
-  sortingRule,
-  setSortingRule,
-}: PokemonTableHeaderProps) => {
+export const PokemonTableHeader = () => {
   const [selectedPokemons, setSelectedPokemons] = useSelectedPokemons();
   const [pokemons] = usePokemons();
   const [isEditEnabled] = useMode(EditMode);
   const classes = useStyles();
+  const [sortingRule, setSortingRule] = useSorting();
 
   const onCheck = () => {
     setSelectedPokemons(

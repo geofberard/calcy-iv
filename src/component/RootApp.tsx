@@ -9,9 +9,12 @@ import { ConfigProvider } from "./context/ConfigContext";
 import { EventServiceProvider } from "./context/EventServiceContext";
 import { ModeProvider } from "./context/ModeContext";
 import { PokedexProvider } from "./context/PokedexContext";
+import { PokemonProvider } from "./context/PokemonContext";
 import { PokemonsProvider } from "./context/PokemonsContext";
+import { SortingProvider } from "./context/SortingContext";
 import { Providers } from "./context/Providers";
 import { SearchQueryProvider } from "./context/SearchQueryContext";
+import { SelectedPokemonsProvider } from "./context/SelectedPokemonsContext";
 import { Navigation } from "./menu/Navigation";
 import { useNavigation } from "./menu/useNavigation";
 import { PokemonGridView } from "./view/PokemonGridView";
@@ -41,6 +44,9 @@ export const RootApp: FC = () => {
             PokemonsProvider,
             ModeProvider,
             SearchQueryProvider,
+            PokemonProvider,
+            SelectedPokemonsProvider,
+            SortingProvider,
           ]}
         >
           <CssBaseline />

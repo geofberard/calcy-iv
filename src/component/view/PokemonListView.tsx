@@ -1,11 +1,10 @@
-import { Collapse, Paper } from "@material-ui/core";
+import { Collapse } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import * as React from "react";
 import { EditMode } from "../../data/mode/Modes";
 import { useMode } from "../context/ModeContext";
-import { PokemonProvider } from "../context/PokemonContext";
 import { usePokemons } from "../context/PokemonsContext";
-import { SelectedPokemonsProvider } from "../context/SelectedPokemonsContext";
+import { useProcessedProkemons } from "../hook/useProcessedPokemons";
 import { PokemonTable } from "./elements/PokemonTable";
 import { PokemonTableToolbar } from "./elements/PokemonTableToolbar";
 
@@ -37,23 +36,17 @@ const useStyles = makeStyles(theme => ({
 
 export const PokemonListView = () => {
   const classes = useStyles();
-  const [pokemons] = usePokemons();
+  const pokemons = useProcessedProkemons();
   const [isEditEnabled] = useMode(EditMode);
 
   return (
-    <>
-      <PokemonProvider>
-        <SelectedPokemonsProvider>
-          <div className={classes.tableContainer}>
-            <div>
-              <Collapse in={isEditEnabled}>
-                <PokemonTableToolbar />
-              </Collapse>
-            </div>
-            <PokemonTable pokemons={pokemons} />
-          </div>
-        </SelectedPokemonsProvider>
-      </PokemonProvider>
-    </>
+    <div className={classes.tableContainer}>
+      <div>
+        <Collapse in={isEditEnabled}>
+          <PokemonTableToolbar />
+        </Collapse>
+      </div>
+      <PokemonTable pokemons={pokemons} />
+    </div>
   );
 };
