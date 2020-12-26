@@ -27,7 +27,7 @@ const theme = createMuiTheme({
   },
 });
 
-const ALL_PAGES = [TableView, GridView];
+const ALL_PAGES = [GridView, TableView];
 
 export const RootApp: FC = () => {
   const [currentPage, setCurrentPage] = useNavigation(ALL_PAGES);
@@ -55,8 +55,8 @@ export const RootApp: FC = () => {
             currentPage={currentPage}
             onChange={setCurrentPage}
           >
-            {currentPage === TableView && <PokemonListView />}
             {currentPage === GridView && <PokemonGridView />}
+            {currentPage === TableView && <PokemonListView />}
           </Navigation>
         </Providers>
       </ThemeProvider>

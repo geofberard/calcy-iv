@@ -1,11 +1,18 @@
-import { Grid, Paper, Table, TableContainer } from "@material-ui/core";
+import {
+  Collapse,
+  Grid,
+  Paper,
+  Table,
+  TableContainer,
+} from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import * as React from "react";
-import { usePokemons } from "../context/PokemonsContext";
+import { EditMode } from "../../data/mode/Modes";
+import { useMode } from "../context/ModeContext";
 import { useProcessedProkemons } from "../hook/useProcessedPokemons";
 import { PokemonGridItem } from "./elements/PokemonGridItem";
-import { PokemonTable } from "./elements/PokemonTable";
 import { PokemonTableHeader } from "./elements/PokemonTableHeader";
+import { PokemonTableToolbar } from "./elements/PokemonTableToolbar";
 
 const useStyles = makeStyles((theme: Theme) => ({
   gridViewContainer: {
@@ -17,6 +24,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     tableLayout: "fixed",
     "& th": {
       textAlign: "center",
+      "&:first-child": {
+        width: 40,
+      },
     },
   },
   gridContainer: {
@@ -24,16 +34,22 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   grid: {
     margin: "0 auto",
-    maxWidth: 500,
+    maxWidth: 480,
   },
 }));
 
 export const PokemonGridView = () => {
   const classes = useStyles();
   const pokemons = useProcessedProkemons();
+  const [isEditEnabled] = useMode(EditMode);
 
   return (
     <div className={classes.gridViewContainer}>
+      <div>
+        <Collapse in={isEditEnabled}>
+          <PokemonTableToolbar />
+        </Collapse>
+      </div>
       <div>
         <TableContainer component={Paper}>
           <Table
@@ -47,7 +63,7 @@ export const PokemonGridView = () => {
         </TableContainer>
       </div>
       <div className={classes.gridContainer}>
-        <Grid container justify="center" spacing={6} className={classes.grid}>
+        <Grid container justify="center" spacing={1} className={classes.grid}>
           {pokemons.map(pokemon => (
             <PokemonGridItem pokemon={pokemon} />
           ))}
