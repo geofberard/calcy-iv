@@ -28,5 +28,6 @@ export const serializePokemons = (pokemons: Pokemon[]) => {
 
 export const getPokemonImage = (pokemon: Pokemon) => {
   const pokedexref = pokemon.pokedexRef.toString().padStart(3, "0");
-  return `https://images.gameinfo.io/pokemon/256/${pokedexref}-00.webp`;
+  const suffix = pokemon.name.endsWith("Alola") ? "61" : "00";
+  return `https://images.gameinfo.io/pokemon/256/${pokedexref}-${suffix}.webp`;
 };
