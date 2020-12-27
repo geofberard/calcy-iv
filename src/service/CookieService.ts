@@ -13,7 +13,12 @@ export const getConfigFromCookie = () => {
     }
     if (c.indexOf(name) === 0) {
       const newLocal = c.substring(name.length, c.length).split("§");
-      return {spreadsheetKey:newLocal[0], pokemonSheet:newLocal[1], pokedexSheet:newLocal[2]} as Config;
+      return {
+        spreadsheetKey: newLocal[0],
+        pokemonSheet: newLocal[1],
+        newScanSheet: newLocal[2],
+        pokedexSheet: newLocal[3],
+      } as Config;
     }
   }
   return null;
@@ -21,8 +26,10 @@ export const getConfigFromCookie = () => {
 
 export const saveConfigAsCookie = (config: Config | undefined) => {
   const d = new Date();
-  d.setTime(d.getTime() + (10 * 365 * 24 * 60 * 60 * 1000));
-  const cookieValue = `${config.spreadsheetKey}§${config.pokemonSheet}§${config.pokedexSheet || ""}`;
+  d.setTime(d.getTime() + 10 * 365 * 24 * 60 * 60 * 1000);
+  const cookieValue =
+    `${config.spreadsheetKey}§${config.pokemonSheet}` +
+    `§${config.newScanSheet || ""}§${config.pokedexSheet || ""}`;
   document.cookie = `${CONFIG_CNAME}=${cookieValue};expires=${d.toUTCString()}`;
 };
 

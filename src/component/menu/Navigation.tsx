@@ -8,6 +8,7 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import * as React from "react";
 import { FC } from "react";
 import { Page } from "../../data/navigation/Page";
+import { useConfig } from "../context/ConfigContext";
 import { PokemonAppBar } from "./PokemonAppBar";
 
 const useStyles = makeStyles<Theme, boolean>((theme: Theme) => ({
@@ -44,6 +45,7 @@ export const Navigation: FC<NavigationProps> = ({
 }) => {
   const [showMenu, setShowMenu] = React.useState(false);
   const classes = useStyles(showMenu);
+  const [config] = useConfig();
 
   return (
     <div className={classes.root}>
@@ -60,21 +62,23 @@ export const Navigation: FC<NavigationProps> = ({
           <div className={classes.toolbar} />
           <Divider />
           <List>
-            {pages.map(page => (
-              <ListItem
-                button
-                key={page.label}
-                onClick={() => onChange(page)}
-                selected={page === currentPage}
-              >
-                <ListItemIcon>
-                  <page.Icon
-                    color={page === currentPage ? "primary" : "inherit"}
-                  />
-                </ListItemIcon>
-                <ListItemText primary={page.label} />
-              </ListItem>
-            ))}
+            {pages
+              .filter(page => !page.isActive || page.isActive(config))
+              .map(page => (
+                <ListItem
+                  button
+                  key={page.label}
+                  onClick={() => onChange(page)}
+                  selected={page === currentPage}
+                >
+                  <ListItemIcon>
+                    <page.Icon
+                      color={page === currentPage ? "primary" : "inherit"}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={page.label} />
+                </ListItem>
+              ))}
           </List>
         </div>
       </Drawer>

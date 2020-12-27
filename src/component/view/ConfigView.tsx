@@ -56,7 +56,6 @@ export const ConfigView = () => {
 
   const spreadsheetKeyError = validate && !newConfig.spreadsheetKey;
   const pokemonSheetError = validate && !newConfig.pokemonSheet;
-  const pokedexSheetError = validate && !newConfig.pokedexSheet;
 
   const onsubmit = () =>
     checkConfig(newConfig) ? setConfig(newConfig as Config) : setValidate(true);
@@ -103,6 +102,18 @@ export const ConfigView = () => {
             }
           />
           <TextField
+            id="newScanSheet"
+            name="newScanSheet"
+            label="New Scan Sheet (optional)"
+            variant="outlined"
+            margin="normal"
+            defaultValue={newConfig.newScanSheet}
+            fullWidth
+            onChange={event =>
+              setNewConfig({ ...newConfig, newScanSheet: event.target.value })
+            }
+          />
+          <TextField
             id="pokedexSheet"
             name="pokedexSheet"
             label="Moves Sheet (optional)"
@@ -110,7 +121,6 @@ export const ConfigView = () => {
             margin="normal"
             defaultValue={newConfig.pokedexSheet}
             fullWidth
-            error={pokedexSheetError}
             onChange={event =>
               setNewConfig({ ...newConfig, pokedexSheet: event.target.value })
             }

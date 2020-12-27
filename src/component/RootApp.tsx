@@ -3,7 +3,7 @@ import { green, red } from "@material-ui/core/colors";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import * as React from "react";
 import { FC } from "react";
-import { GridView, TableView } from "../data/navigation/Pages";
+import { GridView, TableView, UpdateView } from "../data/navigation/Pages";
 import { useSpreadSheet } from "../service/useSpreadSheet";
 import { ConfigProvider } from "./context/ConfigContext";
 import { EventServiceProvider } from "./context/EventServiceContext";
@@ -19,6 +19,7 @@ import { Navigation } from "./menu/Navigation";
 import { useNavigation } from "./menu/useNavigation";
 import { PokemonGridView } from "./view/PokemonGridView";
 import { PokemonListView } from "./view/PokemonListView";
+import { PokemonUpdateView } from "./view/PokemonUpdateView";
 
 const theme = createMuiTheme({
   palette: {
@@ -27,7 +28,7 @@ const theme = createMuiTheme({
   },
 });
 
-const ALL_PAGES = [GridView, TableView];
+const ALL_PAGES = [GridView, TableView, UpdateView];
 
 export const RootApp: FC = () => {
   const [currentPage, setCurrentPage] = useNavigation(ALL_PAGES);
@@ -57,6 +58,7 @@ export const RootApp: FC = () => {
           >
             {currentPage === GridView && <PokemonGridView />}
             {currentPage === TableView && <PokemonListView />}
+            {currentPage === UpdateView && <PokemonUpdateView />}
           </Navigation>
         </Providers>
       </ThemeProvider>
