@@ -1,12 +1,10 @@
-import { Collapse } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import * as React from "react";
-import { EditMode } from "../../data/mode/Modes";
-import { useMode } from "../context/ModeContext";
-import { usePokemons } from "../context/PokemonsContext";
+import { useSelectedPokemons } from "../context/SelectedPokemonsContext";
 import { useProcessedProkemons } from "../hook/useProcessedPokemons";
+import { PokemonSelectionToolbar } from "./elements/PokemonSelectionToolbar";
 import { PokemonTable } from "./elements/PokemonTable";
-import { PokemonTableToolbar } from "./elements/PokemonTableToolbar";
+import { usePokemons } from "../context/PokemonsContext";
 
 const useStyles = makeStyles(theme => ({
   tableContainer: {
@@ -37,14 +35,20 @@ const useStyles = makeStyles(theme => ({
 export const PokemonListView = () => {
   const classes = useStyles();
   const pokemons = useProcessedProkemons();
-  const [isEditEnabled] = useMode(EditMode);
+  const [, setPokemons] = usePokemons();
+  const [selectedPokemons, setSelectedPokemons] = useSelectedPokemons();
+
+  const deleteSelected = () => {
+    setPokemons(
+      pokemons.filter(pokemon => !selectedPokemons.includes(pokemon.id))
+    );
+    setSelectedPokemons([]);
+  };
 
   return (
     <div className={classes.tableContainer}>
       <div>
-        <Collapse in={isEditEnabled}>
-          <PokemonTableToolbar />
-        </Collapse>
+        <PokemonSelectionToolbar onDelete={deleteSelected} />
       </div>
       <PokemonTable pokemons={pokemons} />
     </div>

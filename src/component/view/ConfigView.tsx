@@ -49,6 +49,7 @@ export const ConfigView = () => {
           spreadsheetKey: cookieConfig.spreadsheetKey,
           pokemonSheet: cookieConfig.pokemonSheet,
           pokedexSheet: cookieConfig.pokedexSheet,
+          newScanSheet: cookieConfig.newScanSheet,
         }
   );
   const [, setConfig] = useConfig();

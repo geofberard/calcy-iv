@@ -1,18 +1,13 @@
-import {
-  Collapse,
-  Grid,
-  Paper,
-  Table,
-  TableContainer,
-} from "@material-ui/core";
+import { Grid, Paper, Table, TableContainer } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import * as React from "react";
-import { EditMode } from "../../data/mode/Modes";
-import { useMode } from "../context/ModeContext";
 import { useProcessedProkemons } from "../hook/useProcessedPokemons";
 import { PokemonGridItem } from "./elements/PokemonGridItem";
 import { PokemonTableHeader } from "./elements/PokemonTableHeader";
 import { PokemonTableToolbar } from "./elements/PokemonTableToolbar";
+import { useSelectedPokemons } from "../context/SelectedPokemonsContext";
+import { PokemonSelectionToolbar } from "./elements/PokemonSelectionToolbar";
+import { usePokemons } from "../context/PokemonsContext";
 
 const useStyles = makeStyles((theme: Theme) => ({
   gridViewContainer: {
@@ -41,14 +36,20 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const PokemonGridView = () => {
   const classes = useStyles();
   const pokemons = useProcessedProkemons();
-  const [isEditEnabled] = useMode(EditMode);
+  const [, setPokemons] = usePokemons();
+  const [selectedPokemons, setSelectedPokemons] = useSelectedPokemons();
+
+  const deleteSelected = () => {
+    setPokemons(
+      pokemons.filter(pokemon => !selectedPokemons.includes(pokemon.id))
+    );
+    setSelectedPokemons([]);
+  };
 
   return (
     <div className={classes.gridViewContainer}>
       <div>
-        <Collapse in={isEditEnabled}>
-          <PokemonTableToolbar />
-        </Collapse>
+        <PokemonSelectionToolbar onDelete={deleteSelected} />
       </div>
       <div>
         <TableContainer component={Paper}>
