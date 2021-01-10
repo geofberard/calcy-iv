@@ -3,12 +3,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import * as React from "react";
 import { EditMode } from "../../../data/mode/Modes";
 import { Pokemon } from "../../../data/Pokemon";
+import { POKEMON_UPDATE_COLUMNS } from "../../../data/table/ColumnDesc";
 import { usePokemons } from "../../context/PokemonsContext";
 import { useSelectedPokemons } from "../../context/SelectedPokemonsContext";
 import { createModeButton } from "../../menu/ModeButton";
 import { PokemonSelectionToolbar } from "./PokemonSelectionToolbar";
 import { PokemonTable } from "./PokemonTable";
-import { useNavigation } from "../../menu/useNavigation";
+import { bestFirst, duplicates } from "../../../data/UpdateUtils";
 
 const useStyles = makeStyles(theme => ({
   tableContainer: {
@@ -54,7 +55,9 @@ export const PokemonUpdater = ({
   const EditButton = createModeButton(EditMode);
 
   const onValidate = () => {
-    setPokemons([...pokemons, ...newPokemons]);
+    setPokemons(
+      [...pokemons, ...newPokemons].sort(bestFirst).filter(duplicates)
+    );
     window.location.href = "#grid";
   };
 
@@ -77,7 +80,7 @@ export const PokemonUpdater = ({
         </Toolbar>
         <PokemonSelectionToolbar onDelete={deleteSelected} />
       </div>
-      <PokemonTable pokemons={newPokemons} />
+      <PokemonTable pokemons={newPokemons} columns={POKEMON_UPDATE_COLUMNS} />
     </div>
   );
 };

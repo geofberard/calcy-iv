@@ -1,5 +1,7 @@
 import { Pokemon } from "../Pokemon";
 import { ColumnType, COL_NUMBER, COL_STRING } from "./ColumnType";
+import { usePokemons } from "../../component/context/PokemonsContext";
+import { alreadyPresent, isSame } from "../UpdateUtils";
 
 export interface ColumnDesc {
   label: string;
@@ -43,4 +45,15 @@ export const Special: ColumnDesc = {
   type: COL_STRING,
 };
 
+export const UpdateStatus: ColumnDesc = {
+  label: "Status",
+  getValue: pokemon => {
+    const [pokemons] = usePokemons();
+    const isUpdated = pokemons.some( current => isSame(current, pokemon) )
+    return isUpdated ? "Updated" : "New";
+  },
+  type: COL_STRING,
+};
+
 export const POKEMON_COLUMNS: ColumnDesc[] = [Name, IV, CP, HP, Fast, Special];
+export const POKEMON_UPDATE_COLUMNS: ColumnDesc[] = [UpdateStatus, Name, IV, CP, HP, Fast, Special];

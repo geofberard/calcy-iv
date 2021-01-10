@@ -31,9 +31,10 @@ export const useTableStyles = makeStyles(theme => ({
 
 interface PokemonTableProps {
   pokemons?: Pokemon[];
+  columns: ColumnDesc[],
 }
 
-export const PokemonTable = ({ pokemons= [] }: PokemonTableProps) => {
+export const PokemonTable = ({ pokemons= [], columns }: PokemonTableProps) => {
   const classes = useTableStyles();
   const pokedexService = usePokedexService();
 
@@ -58,11 +59,11 @@ export const PokemonTable = ({ pokemons= [] }: PokemonTableProps) => {
           size="small"
           aria-label="a dense table"
         >
-          <PokemonTableHeader />
+          <PokemonTableHeader columns={columns}/>
           <TableBody>
             {pokemons
               .map((pokemon, index) => (
-                <PokemonRow index={index} pokemon={pokemon} />
+                <PokemonRow index={index} pokemon={pokemon} columns={columns}/>
               ))}
           </TableBody>
         </Table>

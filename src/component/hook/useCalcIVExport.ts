@@ -31,22 +31,24 @@ export const useCalceIVExport: (
   const loadData = () =>
     loadPokemons(spreadsheetKey, sheet).then(loadedPokemons =>
       setPokemons(
-        loadedPokemons.map(
-          rawPokemon =>
-            ({
-              id: computeId(rawPokemon),
-              pokedexRef: rawPokemon.pokedexRed,
-              name: sanitizeName(rawPokemon.name),
-              nickname: rawPokemon.nickname,
-              cp: rawPokemon.cp,
-              hp: rawPokemon.hp,
-              statIV: rawPokemon.statIV,
-              fastMove: pokedexService.parseMove(rawPokemon.fastMove),
-              specialMove: pokedexService.parseMove(rawPokemon.specialMove),
-              specialMove2: pokedexService.parseMove(rawPokemon.specialMove2),
-              raw: rawPokemon,
-            } as Pokemon)
-        )
+        loadedPokemons
+          .filter(rawPokemon => !rawPokemon.ancestor)
+          .map(
+            rawPokemon =>
+              ({
+                id: computeId(rawPokemon),
+                pokedexRef: rawPokemon.pokedexRed,
+                name: sanitizeName(rawPokemon.name),
+                nickname: rawPokemon.nickname,
+                cp: rawPokemon.cp,
+                hp: rawPokemon.hp,
+                statIV: rawPokemon.statIV,
+                fastMove: pokedexService.parseMove(rawPokemon.fastMove),
+                specialMove: pokedexService.parseMove(rawPokemon.specialMove),
+                specialMove2: pokedexService.parseMove(rawPokemon.specialMove2),
+                raw: rawPokemon,
+              } as Pokemon)
+          )
       )
     );
 

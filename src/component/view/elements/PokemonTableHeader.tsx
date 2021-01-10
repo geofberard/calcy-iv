@@ -6,7 +6,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import * as React from "react";
 import { EditMode } from "../../../data/mode/Modes";
-import { ColumnDesc, POKEMON_COLUMNS } from "../../../data/table/ColumnDesc";
+import { ColumnDesc } from "../../../data/table/ColumnDesc";
 import { SortingRule } from "../../../data/table/SortingRule";
 import { useMode } from "../../context/ModeContext";
 import { usePokemons } from "../../context/PokemonsContext";
@@ -33,7 +33,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const PokemonTableHeader = () => {
+interface PokemonTableHeaderProps {
+  columns: ColumnDesc[],
+}
+
+export const PokemonTableHeader = ({columns}:PokemonTableHeaderProps) => {
   const [selectedPokemons, setSelectedPokemons] = useSelectedPokemons();
   const [pokemons] = usePokemons();
   const [isEditEnabled] = useMode(EditMode);
@@ -65,7 +69,7 @@ export const PokemonTableHeader = () => {
             />
           )}
         </TableCell>
-        {POKEMON_COLUMNS.map(column => (
+        {columns.map(column => (
           <TableCell
             align={column.type.align}
             className={classes.headerCell}

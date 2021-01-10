@@ -8,6 +8,7 @@ import { PokemonTableToolbar } from "./elements/PokemonTableToolbar";
 import { useSelectedPokemons } from "../context/SelectedPokemonsContext";
 import { PokemonSelectionToolbar } from "./elements/PokemonSelectionToolbar";
 import { usePokemons } from "../context/PokemonsContext";
+import { POKEMON_COLUMNS } from "../../data/table/ColumnDesc";
 
 const useStyles = makeStyles((theme: Theme) => ({
   gridViewContainer: {
@@ -35,8 +36,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const PokemonGridView = () => {
   const classes = useStyles();
-  const pokemons = useProcessedProkemons();
-  const [, setPokemons] = usePokemons();
+  const [pokemons, setPokemons] = usePokemons();
+  const processedPokemons = useProcessedProkemons(pokemons);
   const [selectedPokemons, setSelectedPokemons] = useSelectedPokemons();
 
   const deleteSelected = () => {
@@ -59,13 +60,13 @@ export const PokemonGridView = () => {
             size="small"
             aria-label="a dense table"
           >
-            <PokemonTableHeader />
+            <PokemonTableHeader columns={POKEMON_COLUMNS} />
           </Table>
         </TableContainer>
       </div>
       <div className={classes.gridContainer}>
         <Grid container justify="center" spacing={1} className={classes.grid}>
-          {pokemons.map(pokemon => (
+          {processedPokemons.map(pokemon => (
             <PokemonGridItem pokemon={pokemon} />
           ))}
         </Grid>

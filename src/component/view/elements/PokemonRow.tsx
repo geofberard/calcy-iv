@@ -4,12 +4,11 @@ import TableRow from "@material-ui/core/TableRow";
 import * as React from "react";
 import { EditMode } from "../../../data/mode/Modes";
 import { Pokemon } from "../../../data/Pokemon";
-import { POKEMON_COLUMNS } from "../../../data/table/ColumnDesc";
+import { ColumnDesc } from "../../../data/table/ColumnDesc";
 import { useMode } from "../../context/ModeContext";
 import { usePokemon } from "../../context/PokemonContext";
 import { useInSelectedPokemon } from "../../context/SelectedPokemonsContext";
 import { useStyleGetter } from "../../context/TableStyleGetterContext";
-import { useTableStyles } from "./PokemonTable";
 
 const useStyles = makeStyles((theme: Theme) => ({
   highlighted: {
@@ -32,9 +31,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface PokemonTableProps {
   index: number;
   pokemon: Pokemon;
+  columns: ColumnDesc[],
 }
 
-export const PokemonRow = ({ index, pokemon }: PokemonTableProps) => {
+export const PokemonRow = ({ index, pokemon, columns }: PokemonTableProps) => {
   const classes = useStyles();
   const [currentPokemon, setCurrentPokemon] = usePokemon();
   const [isSelected, setSelected] = useInSelectedPokemon(pokemon);
@@ -60,7 +60,7 @@ export const PokemonRow = ({ index, pokemon }: PokemonTableProps) => {
       <TableCell align="right" className={classes.idCell} padding="checkbox">
         {!isEditEnabled ? index + 1 : <Checkbox checked={isSelected} className={classes.highlighted}/>}
       </TableCell>
-      {POKEMON_COLUMNS.map(column => (
+      {columns.map(column => (
         <TableCell
           align={column.type.align}
           className={getStyles(pokemon, column)}

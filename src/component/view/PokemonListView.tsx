@@ -5,6 +5,7 @@ import { useProcessedProkemons } from "../hook/useProcessedPokemons";
 import { PokemonSelectionToolbar } from "./elements/PokemonSelectionToolbar";
 import { PokemonTable } from "./elements/PokemonTable";
 import { usePokemons } from "../context/PokemonsContext";
+import { POKEMON_COLUMNS } from "../../data/table/ColumnDesc";
 
 const useStyles = makeStyles(theme => ({
   tableContainer: {
@@ -34,8 +35,8 @@ const useStyles = makeStyles(theme => ({
 
 export const PokemonListView = () => {
   const classes = useStyles();
-  const pokemons = useProcessedProkemons();
-  const [, setPokemons] = usePokemons();
+  const [pokemons, setPokemons] = usePokemons();
+  const processedPokemons = useProcessedProkemons(pokemons);
   const [selectedPokemons, setSelectedPokemons] = useSelectedPokemons();
 
   const deleteSelected = () => {
@@ -50,7 +51,7 @@ export const PokemonListView = () => {
       <div>
         <PokemonSelectionToolbar onDelete={deleteSelected} />
       </div>
-      <PokemonTable pokemons={pokemons} />
+      <PokemonTable pokemons={processedPokemons} columns={POKEMON_COLUMNS}/>
     </div>
   );
 };
