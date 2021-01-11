@@ -6,19 +6,19 @@ import { useEventService } from "../context/EventServiceContext";
 import { StateContext } from "../context/StateContext";
 import { PokemonRaw } from "../../data/PokemonRaw";
 
-const computeId = (pokemon: PokemonRaw) =>
-  pokemon.name +
-  pokemon.statIV +
-  pokemon.statAtt +
-  pokemon.statDef +
-  pokemon.statHP;
-
 const sanitizeName = (name: string) =>
   name
     .replace("Purifié", "")
     .replace("Normale", "")
     .replace("Originelle", "")
     .trim();
+
+const computeId = (pokemon: PokemonRaw) =>
+  sanitizeName(pokemon.name) +
+  pokemon.statIV +
+  pokemon.statAtt +
+  pokemon.statDef +
+  pokemon.statHP;
 
 export const useCalceIVExport: (
   spreadsheetKey: string,
