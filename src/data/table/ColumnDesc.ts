@@ -1,7 +1,7 @@
-import { Pokemon } from "../Pokemon";
-import { ColumnType, COL_NUMBER, COL_STRING } from "./ColumnType";
 import { usePokemons } from "../../component/context/PokemonsContext";
-import { alreadyPresent, isSame } from "../UpdateUtils";
+import { Pokemon } from "../Pokemon";
+import { isSame } from "../UpdateUtils";
+import { ColumnType, COL_NUMBER, COL_STRING } from "./ColumnType";
 
 export interface ColumnDesc {
   label: string;

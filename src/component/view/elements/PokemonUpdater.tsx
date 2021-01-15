@@ -4,12 +4,12 @@ import * as React from "react";
 import { EditMode } from "../../../data/mode/Modes";
 import { Pokemon } from "../../../data/Pokemon";
 import { POKEMON_UPDATE_COLUMNS } from "../../../data/table/ColumnDesc";
+import { notInUnion } from "../../../data/UpdateUtils";
 import { usePokemons } from "../../context/PokemonsContext";
 import { useSelectedPokemons } from "../../context/SelectedPokemonsContext";
 import { createModeButton } from "../../menu/ModeButton";
 import { PokemonSelectionToolbar } from "./PokemonSelectionToolbar";
 import { PokemonTable } from "./PokemonTable";
-import { bestFirst, duplicates } from "../../../data/UpdateUtils";
 
 const useStyles = makeStyles(theme => ({
   tableContainer: {
@@ -56,7 +56,10 @@ export const PokemonUpdater = ({
 
   const onValidate = () => {
     setPokemons(
-      [...pokemons, ...newPokemons].sort(bestFirst).filter(duplicates)
+      [
+        ...pokemons.filter(notInUnion(newPokemons)),
+        ...newPokemons,
+      ]
     );
     window.location.href = "#grid";
   };

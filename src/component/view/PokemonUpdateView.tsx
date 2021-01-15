@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Pokemon } from "../../data/Pokemon";
-import { alreadyPresent, bestFirst, duplicates } from "../../data/UpdateUtils";
+import { newOrChanged, bestFirst, duplicates } from "../../data/UpdateUtils";
 import { useConfig } from "../context/ConfigContext";
 import { usePokemons } from "../context/PokemonsContext";
 import { SelectedPokemonsProvider } from "../context/SelectedPokemonsContext";
@@ -11,7 +11,7 @@ import { LoadingView } from "./LoadingView";
 
 const filter = (newPokemons: Pokemon[], pokemons: Pokemon[]) =>
   newPokemons
-    .filter(alreadyPresent(pokemons))
+    .filter(newOrChanged(pokemons))
     .sort(bestFirst)
     .filter(duplicates);
 
