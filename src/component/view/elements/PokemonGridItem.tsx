@@ -89,7 +89,8 @@ export const PokemonGridItem = ({ pokemon }: PokemonGridItemProps) => {
       key={pokemon.id}
       xs={4}
       item
-      onMouseOver={() => setCurrentPokemon(pokemon)}
+      onMouseEnter={() => setCurrentPokemon(pokemon)}
+      onMouseLeave={() => setCurrentPokemon(undefined)}
       onFocus={() => setCurrentPokemon(pokemon)}
       onClick={onClick}
     >

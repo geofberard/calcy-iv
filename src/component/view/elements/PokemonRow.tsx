@@ -53,7 +53,8 @@ export const PokemonRow = ({ index, pokemon, columns }: PokemonTableProps) => {
   return (
     <TableRow
       className={isHighlighted ? classes.highlighted : null}
-      onMouseOver={() => setCurrentPokemon(pokemon)}
+      onMouseEnter={() => setCurrentPokemon(pokemon)}
+      onMouseLeave={() => setCurrentPokemon(undefined)}
       onFocus={() => setCurrentPokemon(pokemon)}
       onClick={onClick}
     >
