@@ -9,6 +9,10 @@ export interface Pokemon {
   cp: number;
   hp: number;
   statIV: number;
+  statAtt: number;
+  statDef: number;
+  statSta: number;
+  level: number;
   fastMove: PokemonMove;
   specialMove: PokemonMove;
   specialMove2: PokemonMove;

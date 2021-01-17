@@ -1,4 +1,5 @@
 import { Pokemon } from "../data/Pokemon";
+import { PokemonMove } from "../data/pokemon/PokemonMove";
 
 const toUsDate = (date: Date) => {
   if (!date) {
@@ -31,3 +32,5 @@ export const getPokemonImage = (pokemon: Pokemon) => {
   const suffix = pokemon.name.endsWith("Alola") ? "61" : "00";
   return `https://images.gameinfo.io/pokemon/256/${pokedexref}-${suffix}.webp`;
 };
+
+export const getMoveLabel = (move: PokemonMove) => (move ? move.name : "-");

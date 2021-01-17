@@ -1,12 +1,11 @@
 import { IconButton, Snackbar } from "@material-ui/core";
 import * as React from "react";
 import { Mode } from "../../data/mode/Mode";
-import { EditMode } from "../../data/mode/Modes";
 import { useMode } from "../context/ModeContext";
 
 export const createModeButton = (mode: Mode) => () => {
   const [isOpen, setOpen] = React.useState(false);
-  const [isEnabled, setEnabled] = useMode(EditMode);
+  const [isEnabled, setEnabled] = useMode(mode);
 
   const Icon = isEnabled ? mode.IconOn : mode.IconOff;
 

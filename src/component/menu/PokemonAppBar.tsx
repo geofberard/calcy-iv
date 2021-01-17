@@ -14,7 +14,7 @@ import GetAppIcon from "@material-ui/icons/GetApp";
 import ShareIcon from "@material-ui/icons/Share";
 import * as React from "react";
 import { refreshEvent as REFRESH } from "../../data/event/AppEvents";
-import { EditMode } from "../../data/mode/Modes";
+import { EditMode, DetailsMode } from "../../data/mode/Modes";
 import { useConfig } from "../context/ConfigContext";
 import { useEventService } from "../context/EventServiceContext";
 import { useSearchQuery } from "../context/SearchQueryContext";
@@ -91,6 +91,7 @@ export const PokemonAppBar = ({ showMenu, toggleMenu }: PokemonAppBar) => {
   const [pokemon] = usePokemons();
 
   const EditButton = createModeButton(EditMode);
+  const DetailsButton = createModeButton(DetailsMode);
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -125,6 +126,7 @@ export const PokemonAppBar = ({ showMenu, toggleMenu }: PokemonAppBar) => {
         <div className={classes.grow} />
         <div>
           <EditButton />
+          <DetailsButton />
           <IconButton
             aria-label="Refresh Data"
             color="inherit"

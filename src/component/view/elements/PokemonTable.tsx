@@ -23,26 +23,26 @@ export const useTableStyles = makeStyles<boolean>(theme => ({
   },
 }));
 
-export const useCellStyles = makeStyles({
+export const useCellStyles = makeStyles(theme => ({
   good: {
-    backgroundColor: "#dcedc8",
+    backgroundColor: theme.palette.success.light,
     "tr:hover &": {
-      backgroundColor: "#a5d6a7",
+      backgroundColor: theme.palette.success.main,
     },
   },
   bad: {
-    backgroundColor: "#ffcdd2",
+    backgroundColor: theme.palette.error.light,
     "tr:hover &": {
-      backgroundColor: "#ef9a9a",
+      backgroundColor: theme.palette.error.main,
     },
   },
   average: {
-    backgroundColor: "#ffe0b2",
+    backgroundColor: theme.palette.warning.light,
     "tr:hover &": {
-      backgroundColor: "#ffcc80",
+      backgroundColor: theme.palette.warning.main,
     },
   },
-});
+}));
 
 interface PokemonTableProps {
   pokemons?: Pokemon[];

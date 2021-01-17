@@ -2,6 +2,7 @@ import { usePokemons } from "../../component/context/PokemonsContext";
 import { Pokemon } from "../Pokemon";
 import { isSame } from "../UpdateUtils";
 import { ColumnType, COL_NUMBER, COL_STRING } from "./ColumnType";
+import { getMoveLabel } from "../../service/PokemonService";
 
 export interface ColumnDesc {
   label: string;
@@ -35,13 +36,13 @@ export const HP: ColumnDesc = {
 
 export const Fast: ColumnDesc = {
   label: "Fast",
-  getValue: pokemon => (pokemon.fastMove ? pokemon.fastMove.name : "-"),
+  getValue: pokemon => getMoveLabel(pokemon.fastMove),
   type: COL_STRING,
 };
 
 export const Special: ColumnDesc = {
   label: "Special",
-  getValue: pokemon => (pokemon.specialMove ? pokemon.specialMove.name : "-"),
+  getValue: pokemon => getMoveLabel(pokemon.specialMove),
   type: COL_STRING,
 };
 

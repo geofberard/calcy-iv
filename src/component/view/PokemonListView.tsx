@@ -1,20 +1,31 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import * as React from "react";
+import { DetailsMode } from "../../data/mode/Modes";
+import { POKEMON_COLUMNS } from "../../data/table/ColumnDesc";
+import { useMode } from "../context/ModeContext";
+import { usePokemons } from "../context/PokemonsContext";
 import { useSelectedPokemons } from "../context/SelectedPokemonsContext";
 import { useProcessedProkemons } from "../hook/useProcessedPokemons";
+import { PokemonDetailsBar } from "./elements/PokemonDetailsBar";
 import { PokemonSelectionToolbar } from "./elements/PokemonSelectionToolbar";
 import { PokemonTable } from "./elements/PokemonTable";
-import { usePokemons } from "../context/PokemonsContext";
-import { POKEMON_COLUMNS } from "../../data/table/ColumnDesc";
 
-const useStyles = makeStyles(theme => ({
+const getHeight = (isDetailsEnabled: boolean, theme: Theme) =>
+  `calc(${isDetailsEnabled ? 70 : 100}vh - ${
+    theme.mixins.toolbar.minHeight
+  }px)`;
+
+const useStyles = makeStyles<Theme, boolean>(theme => ({
   tableContainer: {
-    height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`,
+    height: isDetailsEnabled => getHeight(!isDetailsEnabled, theme),
     display: "flex",
     flexDirection: "column",
+    transition: theme.transitions.create(["height", "transform"], {
+      duration: theme.transitions.duration.standard,
+    }),
   },
-  root: {
-    height: 180,
+  details: {
+    height: "30vh",
   },
   container: {
     display: "flex",
@@ -34,10 +45,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const PokemonListView = () => {
-  const classes = useStyles();
   const [pokemons, setPokemons] = usePokemons();
   const processedPokemons = useProcessedProkemons(pokemons);
   const [selectedPokemons, setSelectedPokemons] = useSelectedPokemons();
+  const [isDetailsEnabled] = useMode(DetailsMode);
+  const classes = useStyles(isDetailsEnabled);
 
   const deleteSelected = () => {
     setPokemons(
@@ -47,11 +59,14 @@ export const PokemonListView = () => {
   };
 
   return (
-    <div className={classes.tableContainer}>
-      <div>
-        <PokemonSelectionToolbar onDelete={deleteSelected} />
+    <div>
+      <div className={classes.tableContainer}>
+        <div>
+          <PokemonSelectionToolbar onDelete={deleteSelected} />
+        </div>
+        <PokemonTable pokemons={processedPokemons} columns={POKEMON_COLUMNS} />
       </div>
-      <PokemonTable pokemons={processedPokemons} columns={POKEMON_COLUMNS}/>
+      {!isDetailsEnabled && <PokemonDetailsBar className={classes.details} />}
     </div>
   );
 };

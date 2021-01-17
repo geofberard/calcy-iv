@@ -23,8 +23,18 @@ import { PokemonUpdateView } from "./view/PokemonUpdateView";
 
 const theme = createMuiTheme({
   palette: {
-    error: red,
-    success: green,
+    success: {
+      light: "#dcedc8",
+      main: "#a5d6a7",
+    },
+    error: {
+      light: "#ffcdd2",
+      main: "#ef9a9a",
+    },
+    warning: {
+      light: "#ffe0b2",
+      main: "#ffcc80",
+    },
   },
 });
 
