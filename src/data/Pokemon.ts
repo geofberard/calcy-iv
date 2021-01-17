@@ -13,6 +13,7 @@ export interface Pokemon {
   statDef: number;
   statSta: number;
   level: number;
+  isShiny: boolean;
   fastMove: PokemonMove;
   specialMove: PokemonMove;
   specialMove2: PokemonMove;

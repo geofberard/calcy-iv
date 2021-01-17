@@ -32,4 +32,5 @@ export interface PokemonRaw {
   isPurified: number;
   height: number;
   catchDate: Date;
+  shiny: number;
 }

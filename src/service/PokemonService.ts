@@ -30,7 +30,8 @@ export const serializePokemons = (pokemons: Pokemon[]) => {
 export const getPokemonImage = (pokemon: Pokemon) => {
   const pokedexref = pokemon.pokedexRef.toString().padStart(3, "0");
   const suffix = pokemon.name.endsWith("Alola") ? "61" : "00";
-  return `https://images.gameinfo.io/pokemon/256/${pokedexref}-${suffix}.webp`;
+  const suffix2 = pokemon.isShiny ? "-shiny" : "";
+  return `https://images.gameinfo.io/pokemon/256/${pokedexref}-${suffix}${suffix2}.webp`;
 };
 
 export const getMoveLabel = (move: PokemonMove) => (move ? move.name : "-");

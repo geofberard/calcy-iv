@@ -43,6 +43,7 @@ export const loadPokemons = (spreadsheetKey: string, sheetName: string) =>
             isPurified: driveData.getValue(i, 30) as number,
             height: driveData.getValue(i, 31) as number,
             catchDate: driveData.getValue(i, 32) as Date,
+            shiny: driveData.getValue(i, 33) as number,
           });
         }
         resolve(pokemons);

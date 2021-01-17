@@ -47,6 +47,7 @@ export const useCalceIVExport: (
                 statDef: rawPokemon.statDef,
                 statSta: rawPokemon.statHP,
                 level: rawPokemon.level,
+                isShiny: rawPokemon.shiny === 1,
                 fastMove: pokedexService.parseMove(rawPokemon.fastMove),
                 specialMove: pokedexService.parseMove(rawPokemon.specialMove),
                 specialMove2: pokedexService.parseMove(rawPokemon.specialMove2),
