@@ -10,10 +10,7 @@ import { PokemonUpdater } from "./elements/PokemonUpdater";
 import { LoadingView } from "./LoadingView";
 
 const filter = (newPokemons: Pokemon[], pokemons: Pokemon[]) =>
-  newPokemons
-    .filter(newOrChanged(pokemons))
-    .sort(bestFirst)
-    .filter(duplicates);
+  newPokemons.filter(newOrChanged(pokemons)).sort(bestFirst).filter(duplicates);
 
 export const PokemonUpdateView = () => {
   const [config] = useConfig();

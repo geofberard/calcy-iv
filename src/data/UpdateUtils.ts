@@ -13,16 +13,20 @@ export const hasChanged = (pokemon1: Pokemon, pokemon2: Pokemon) =>
   compareMoves(pokemon1.fastMove, pokemon2.fastMove) ||
   compareMoves(pokemon1.specialMove, pokemon2.specialMove);
 
-export const newOrChanged = (pokemons: Pokemon[]) => (newPokemon: Pokemon) =>
-  !pokemons.some(pokemon => {
-    if (
-      newPokemon.id === "Dracolosse100151515" &&
-      pokemon.id === "Dracolosse100151515"
-    ) {
-      console.log(newPokemon, pokemon);
-    }
-    return isSame(newPokemon, pokemon) && !hasChanged(newPokemon, pokemon);
-  });
+export const hasChange = (pokemons: Pokemon[], newPokemon: Pokemon) =>
+  !pokemons.some(
+    pokemon => isSame(newPokemon, pokemon) && !hasChanged(newPokemon, pokemon)
+  );
+
+export const newOrChanged = (pokemons: Pokemon[]) => {
+  const latestUpdate = Math.max(
+    ...pokemons.map(pokemon => pokemon.raw.scanDate.getTime())
+  );
+
+  return (newPokemon: Pokemon) =>
+    newPokemon.raw.scanDate.getTime() >= latestUpdate ||
+    hasChange(pokemons, newPokemon);
+};
 
 export const notInUnion = (pokemons: Pokemon[]) => (newPokemon: Pokemon) =>
   !pokemons.some(pokemon => isSame(newPokemon, pokemon));
