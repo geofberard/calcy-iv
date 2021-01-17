@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
   },
   image: {
-    width: 120,
-    height: 145,
+    width: 95,
+    height: 120,
     paddingTop: 10,
     paddingBottom: 15,
     margin: "0 auto",
@@ -41,12 +41,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: "bold",
   },
   pcValue: {
-    fontSize: 24,
+    fontSize: 22,
     color: primaryTextColor,
     fontWeight: "bold",
   },
   name: {
-    fontSize: 18,
+    fontSize: 15,
     color: primaryTextColor,
     fontWeight: "bold",
     bottom: 15,

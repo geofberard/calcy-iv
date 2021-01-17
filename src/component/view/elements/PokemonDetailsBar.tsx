@@ -18,9 +18,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const PokemonDetailsBar = ({ className }: PokemonDetailsBarProps) => {
-  const [currentPokemon, setCurrentPokemon] = usePokemon();
+  const [currentPokemon] = usePokemon();
   const classes = useStyles();
-  const [pokemons] = usePokemons();
 
   return !currentPokemon ? null : (
     <div className={`${className} ${classes.bar}`}>

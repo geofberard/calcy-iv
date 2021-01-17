@@ -41,7 +41,7 @@ const useStyles = makeStyles<Theme, boolean>(theme => ({
   },
   grid: {
     margin: "0 auto",
-    maxWidth: 480,
+    maxWidth: 400,
   },
   details: {
     height: "30vh",

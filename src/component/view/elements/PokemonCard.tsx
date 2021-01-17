@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxWidth: 1000,
   },
   image: {
-    width: 200,
+    width: 180,
+    paddingRight: 10,
   },
   flewRow: {
     display: "flex",
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   advices: {
     paddingLeft: 10,
-    minWidth: 400,
+    minWidth: 320,
   },
 }));
 

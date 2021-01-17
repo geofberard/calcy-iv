@@ -22,6 +22,12 @@ import { PokemonListView } from "./view/PokemonListView";
 import { PokemonUpdateView } from "./view/PokemonUpdateView";
 
 const theme = createMuiTheme({
+  typography: {
+    h5: { fontSize: "1.2rem" },
+    h6: { fontSize: "1rem" },
+    body1: { fontSize: "0.8rem" },
+    body2: { fontSize: "0.7rem" },
+  },
   palette: {
     success: {
       light: "#dcedc8",
