@@ -1,20 +1,31 @@
 import { Grid, Paper, Table, TableContainer } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import * as React from "react";
-import { useProcessedProkemons } from "../hook/useProcessedPokemons";
-import { PokemonGridItem } from "./elements/PokemonGridItem";
-import { PokemonTableHeader } from "./elements/PokemonTableHeader";
-import { PokemonTableToolbar } from "./elements/PokemonTableToolbar";
-import { useSelectedPokemons } from "../context/SelectedPokemonsContext";
-import { PokemonSelectionToolbar } from "./elements/PokemonSelectionToolbar";
-import { usePokemons } from "../context/PokemonsContext";
+import { DetailsMode } from "../../data/mode/Modes";
 import { POKEMON_COLUMNS } from "../../data/table/ColumnDesc";
+import { useMode } from "../context/ModeContext";
+import { usePokemons } from "../context/PokemonsContext";
+import { useSelectedPokemons } from "../context/SelectedPokemonsContext";
+import { useProcessedProkemons } from "../hook/useProcessedPokemons";
+import { PokemonDetailsBar } from "./elements/PokemonDetailsBar";
+import { PokemonGridItem } from "./elements/PokemonGridItem";
+import { PokemonSelectionToolbar } from "./elements/PokemonSelectionToolbar";
+import { PokemonTableHeader } from "./elements/PokemonTableHeader";
 
-const useStyles = makeStyles((theme: Theme) => ({
+const getHeight = (isDetailsEnabled: boolean, theme: Theme) =>
+  `calc(${isDetailsEnabled ? 70 : 100}vh - ${
+    theme.mixins.toolbar.minHeight
+  }px)`;
+
+const useStyles = makeStyles<Theme, boolean>(theme => ({
   gridViewContainer: {
-    height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`,
+    height: isDetailsEnabled => getHeight(isDetailsEnabled, theme),
     display: "flex",
     flexDirection: "column",
+    transition: theme.transitions.create(["height", "transform"], {
+      duration: theme.transitions.duration.standard,
+    }),
+    background: "none",
   },
   sortingTable: {
     tableLayout: "fixed",
@@ -32,13 +43,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: "0 auto",
     maxWidth: 480,
   },
+  details: {
+    height: "30vh",
+  },
 }));
 
 export const PokemonGridView = () => {
-  const classes = useStyles();
   const [pokemons, setPokemons] = usePokemons();
   const processedPokemons = useProcessedProkemons(pokemons);
   const [selectedPokemons, setSelectedPokemons] = useSelectedPokemons();
+  const [isDetailsEnabled] = useMode(DetailsMode);
+  const classes = useStyles(isDetailsEnabled);
 
   const deleteSelected = () => {
     setPokemons(
@@ -48,29 +63,32 @@ export const PokemonGridView = () => {
   };
 
   return (
-    <div className={classes.gridViewContainer}>
-      <div>
-        <PokemonSelectionToolbar onDelete={deleteSelected} />
-      </div>
-      <div>
-        <TableContainer component={Paper}>
-          <Table
-            stickyHeader
-            className={classes.sortingTable}
-            size="small"
-            aria-label="a dense table"
-          >
-            <PokemonTableHeader columns={POKEMON_COLUMNS} />
-          </Table>
-        </TableContainer>
-      </div>
-      <div className={classes.gridContainer}>
-        <Grid container justify="center" spacing={1} className={classes.grid}>
-          {processedPokemons.map(pokemon => (
-            <PokemonGridItem pokemon={pokemon} />
-          ))}
-        </Grid>
-      </div>
+    <div>
+      <Paper className={classes.gridViewContainer}>
+        <div>
+          <PokemonSelectionToolbar onDelete={deleteSelected} />
+        </div>
+        <div>
+          <TableContainer component={Paper}>
+            <Table
+              stickyHeader
+              className={classes.sortingTable}
+              size="small"
+              aria-label="a dense table"
+            >
+              <PokemonTableHeader columns={POKEMON_COLUMNS} />
+            </Table>
+          </TableContainer>
+        </div>
+        <div className={classes.gridContainer}>
+          <Grid container justify="center" spacing={1} className={classes.grid}>
+            {processedPokemons.map(pokemon => (
+              <PokemonGridItem pokemon={pokemon} />
+            ))}
+          </Grid>
+        </div>
+      </Paper>
+      {isDetailsEnabled && <PokemonDetailsBar className={classes.details} />}
     </div>
   );
 };

@@ -7,7 +7,6 @@ import { getPokemonImage } from "../../../service/PokemonService";
 import { useMode } from "../../context/ModeContext";
 import { usePokemon } from "../../context/PokemonContext";
 import { useInSelectedPokemon } from "../../context/SelectedPokemonsContext";
-import { usePokedexService } from "../../hook/usePokedexService";
 
 const primaryTextColor = "#44696c";
 const secondaryTextColor = "#97abac";
@@ -20,6 +19,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: 10,
     textAlign: "center",
     borderRadius: 5,
+    "&:hover": {
+      backgroundColor: selectedColor,
+    }
   },
   image: {
     width: 120,
@@ -69,14 +71,12 @@ interface PokemonGridItemProps {
 
 export const PokemonGridItem = ({ pokemon }: PokemonGridItemProps) => {
   const classes = useStyles();
-  const pokedex = usePokedexService();
 
-  const [currentPokemon, setCurrentPokemon] = usePokemon();
+  const [, setCurrentPokemon] = usePokemon();
   const [isSelected, setSelected] = useInSelectedPokemon(pokemon);
   const [isEditEnabled] = useMode(EditMode);
 
-  const isHighlighted =
-    pokemon === currentPokemon || (isEditEnabled && isSelected);
+  const isHighlighted = isEditEnabled && isSelected;
 
   const onClick = () => {
     if (isEditEnabled) {
@@ -90,7 +90,6 @@ export const PokemonGridItem = ({ pokemon }: PokemonGridItemProps) => {
       xs={4}
       item
       onMouseEnter={() => setCurrentPokemon(pokemon)}
-      onMouseLeave={() => setCurrentPokemon(undefined)}
       onFocus={() => setCurrentPokemon(pokemon)}
       onClick={onClick}
     >

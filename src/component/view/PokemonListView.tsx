@@ -17,7 +17,7 @@ const getHeight = (isDetailsEnabled: boolean, theme: Theme) =>
 
 const useStyles = makeStyles<Theme, boolean>(theme => ({
   tableContainer: {
-    height: isDetailsEnabled => getHeight(!isDetailsEnabled, theme),
+    height: isDetailsEnabled => getHeight(isDetailsEnabled, theme),
     display: "flex",
     flexDirection: "column",
     transition: theme.transitions.create(["height", "transform"], {
@@ -66,7 +66,7 @@ export const PokemonListView = () => {
         </div>
         <PokemonTable pokemons={processedPokemons} columns={POKEMON_COLUMNS} />
       </div>
-      {!isDetailsEnabled && <PokemonDetailsBar className={classes.details} />}
+      {isDetailsEnabled && <PokemonDetailsBar className={classes.details} />}
     </div>
   );
 };

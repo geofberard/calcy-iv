@@ -22,8 +22,6 @@ export const PokemonDetailsBar = ({ className }: PokemonDetailsBarProps) => {
   const classes = useStyles();
   const [pokemons] = usePokemons();
 
-  React.useEffect(() => setCurrentPokemon(pokemons[0]), []);
-
   return !currentPokemon ? null : (
     <div className={`${className} ${classes.bar}`}>
       <PokemonCard pokemon={currentPokemon} />

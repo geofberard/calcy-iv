@@ -54,7 +54,6 @@ export const PokemonRow = ({
     <TableRow
       className={classes.row}
       onMouseEnter={() => setCurrentPokemon(pokemon)}
-      onMouseLeave={() => setCurrentPokemon(undefined)}
       onFocus={() => setCurrentPokemon(pokemon)}
       onClick={onClick}
     >
