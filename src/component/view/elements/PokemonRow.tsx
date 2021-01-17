@@ -8,16 +8,11 @@ import { ColumnDesc } from "../../../data/table/ColumnDesc";
 import { useMode } from "../../context/ModeContext";
 import { usePokemon } from "../../context/PokemonContext";
 import { useInSelectedPokemon } from "../../context/SelectedPokemonsContext";
-import { useStyleGetter } from "../../context/TableStyleGetterContext";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  highlighted: {
-    backgroundColor: theme.palette.grey["100"],
-    "& $green": {
-      backgroundColor: theme.palette.success.main,
-    },
-    "& $red": {
-      backgroundColor: theme.palette.error.main,
+  row: {
+    "&:hover": {
+      backgroundColor: theme.palette.grey["100"],
     },
   },
   idCell: {
@@ -31,15 +26,20 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface PokemonTableProps {
   index: number;
   pokemon: Pokemon;
-  columns: ColumnDesc[],
+  columns: ColumnDesc[];
+  getCellStyle: (pokemon: Pokemon, column: ColumnDesc) => string;
 }
 
-export const PokemonRow = ({ index, pokemon, columns }: PokemonTableProps) => {
+export const PokemonRow = ({
+  index,
+  pokemon,
+  columns,
+  getCellStyle,
+}: PokemonTableProps) => {
   const classes = useStyles();
   const [currentPokemon, setCurrentPokemon] = usePokemon();
   const [isSelected, setSelected] = useInSelectedPokemon(pokemon);
   const [isEditEnabled] = useMode(EditMode);
-  const getStyles = useStyleGetter();
 
   const isHighlighted =
     pokemon === currentPokemon || (isEditEnabled && isSelected);
@@ -52,19 +52,23 @@ export const PokemonRow = ({ index, pokemon, columns }: PokemonTableProps) => {
 
   return (
     <TableRow
-      className={isHighlighted ? classes.highlighted : null}
+      className={classes.row}
       onMouseEnter={() => setCurrentPokemon(pokemon)}
       onMouseLeave={() => setCurrentPokemon(undefined)}
       onFocus={() => setCurrentPokemon(pokemon)}
       onClick={onClick}
     >
       <TableCell align="right" className={classes.idCell} padding="checkbox">
-        {!isEditEnabled ? index + 1 : <Checkbox checked={isSelected} className={classes.highlighted}/>}
+        {!isEditEnabled ? (
+          index + 1
+        ) : (
+          <Checkbox checked={isSelected}/>
+        )}
       </TableCell>
       {columns.map(column => (
         <TableCell
           align={column.type.align}
-          className={getStyles(pokemon, column)}
+          className={getCellStyle(pokemon, column)}
         >
           {column.getValue(pokemon)}
         </TableCell>
