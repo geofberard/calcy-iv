@@ -17,5 +17,6 @@ export interface Pokemon {
   fastMove: PokemonMove;
   specialMove: PokemonMove;
   specialMove2: PokemonMove;
+  height: number;
   raw: PokemonRaw;
 }

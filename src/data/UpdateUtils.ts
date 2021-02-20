@@ -14,23 +14,26 @@ export const hasChanged = (pokemon1: Pokemon, pokemon2: Pokemon) =>
   compareMoves(pokemon1.specialMove, pokemon2.specialMove);
 
 export const hasChange = (pokemons: Pokemon[], newPokemon: Pokemon) =>
-  !pokemons.some(
-    pokemon => isSame(newPokemon, pokemon) && !hasChanged(newPokemon, pokemon)
+  pokemons.some(
+    pokemon => isSame(newPokemon, pokemon) && hasChanged(newPokemon, pokemon)
   );
+
+
+
+export const notInUnion = (pokemons: Pokemon[]) => (newPokemon: Pokemon) =>
+  !pokemons.some(pokemon => isSame(newPokemon, pokemon));
 
 export const newOrChanged = (pokemons: Pokemon[]) => {
   const latestUpdate = Math.max(
     ...pokemons.map(pokemon => pokemon.raw.scanDate.getTime())
   );
 
-  return (newPokemon: Pokemon) =>
-    newPokemon.raw.scanDate.getTime() >= latestUpdate ||
+  const isNew = notInUnion(pokemons);
+
+  return (newPokemon: Pokemon) => (newPokemon.raw.scanDate.getTime() >= latestUpdate && isNew(newPokemon)) ||
     hasChange(pokemons, newPokemon);
 };
-
-export const notInUnion = (pokemons: Pokemon[]) => (newPokemon: Pokemon) =>
-  !pokemons.some(pokemon => isSame(newPokemon, pokemon));
-
+  
 export const bestFirst = (pokemon1: Pokemon, pokemon2: Pokemon) =>
   pokemon2.cp - pokemon1.cp;
 

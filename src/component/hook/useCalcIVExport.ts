@@ -16,9 +16,7 @@ const sanitizeName = (name: string) =>
 const computeId = (pokemon: PokemonRaw) =>
   sanitizeName(pokemon.name) +
   pokemon.statIV +
-  pokemon.statAtt +
-  pokemon.statDef +
-  pokemon.statHP;
+  pokemon.height;
 
 export const useCalceIVExport: (
   spreadsheetKey: string,
@@ -51,6 +49,7 @@ export const useCalceIVExport: (
                 fastMove: pokedexService.parseMove(rawPokemon.fastMove),
                 specialMove: pokedexService.parseMove(rawPokemon.specialMove),
                 specialMove2: pokedexService.parseMove(rawPokemon.specialMove2),
+                height: rawPokemon.height,
                 raw: rawPokemon,
               } as Pokemon)
           )
