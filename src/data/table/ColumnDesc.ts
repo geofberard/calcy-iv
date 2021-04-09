@@ -1,6 +1,6 @@
 import { usePokemons } from "../../component/context/PokemonsContext";
 import { Pokemon } from "../Pokemon";
-import { isSame } from "../UpdateUtils";
+import { isSame, getOriginal } from "../UpdateUtils";
 import { ColumnType, COL_NUMBER, COL_STRING } from "./ColumnType";
 import { getMoveLabel } from "../../service/PokemonService";
 
@@ -49,9 +49,9 @@ export const Special: ColumnDesc = {
 export const UpdateStatus: ColumnDesc = {
   label: "Status",
   getValue: pokemon => {
-    const [pokemons] = usePokemons();
-    const isUpdated = pokemons.some( current => isSame(current, pokemon) )
-    return isUpdated ? "Updated" : "New";
+    const [originalPokemons] = usePokemons();
+    const original = getOriginal(pokemon, originalPokemons);
+    return original ? "Updated" : "New";
   },
   type: COL_STRING,
 };

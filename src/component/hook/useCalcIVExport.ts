@@ -15,8 +15,10 @@ const sanitizeName = (name: string) =>
 
 const computeId = (pokemon: PokemonRaw) =>
   sanitizeName(pokemon.name) +
-  pokemon.statIV +
-  pokemon.height;
+  Math.round(pokemon.statIV * 100) / 100 +
+  Math.round(pokemon.statHP * 100) / 100 +
+  Math.round(pokemon.statAtt * 100) / 100 +
+  Math.round(pokemon.statDef * 100) / 100;
 
 export const useCalceIVExport: (
   spreadsheetKey: string,

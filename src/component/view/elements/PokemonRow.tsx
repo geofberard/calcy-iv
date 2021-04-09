@@ -37,9 +37,14 @@ export const PokemonRow = ({
   getCellStyle,
 }: PokemonTableProps) => {
   const classes = useStyles();
-  const [currentPokemon, setCurrentPokemon] = usePokemon();
+  const [currentPokemon, setCurrentPokemon2] = usePokemon();
   const [isSelected, setSelected] = useInSelectedPokemon(pokemon);
   const [isEditEnabled] = useMode(EditMode);
+
+  const setCurrentPokemon = (actual: Pokemon) => {
+    console.log(actual.id);
+    setCurrentPokemon2(actual);
+  }
 
   const isHighlighted =
     pokemon === currentPokemon || (isEditEnabled && isSelected);
