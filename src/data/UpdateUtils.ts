@@ -39,3 +39,6 @@ export const bestFirst = (pokemon1: Pokemon, pokemon2: Pokemon) =>
 
 export const duplicates = (pokemon: Pokemon, pos: number, self: Pokemon[]) =>
   self.findIndex(current => current.id === pokemon.id) === pos;
+
+export const getOriginal = (pokemon: Pokemon, pokemons: Pokemon[]) => 
+  pokemons.find( current => isSame(current, pokemon) );
